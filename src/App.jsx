@@ -1,94 +1,77 @@
-import { useRef, useState } from 'react';
+import { useState, useEffect } from "react";
+import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom"; // ✅ Import React Router
+import { PhaserGame } from "./game/PhaserGame.jsx";
+import QuizPage from "./QuizPage.jsx";
 
-import Phaser from 'phaser';
-import { PhaserGame } from './game/PhaserGame';
+function App() {
+    const [resources, setResources] = useState({ food: 0, wood: 0, metal: 0, tech: 0 });
 
-function App ()
-{
-    // The sprite can only be moved in the MainMenu Scene
-    const [canMoveSprite, setCanMoveSprite] = useState(true);
+    useEffect(() => {
+        const interval = setInterval(() => {
+            if (
+                window.phaserGame &&
+                window.phaserGame.scene &&
+                window.phaserGame.scene.scenes.length > 0
+            ) {
+                console.log("✅ Phaser is ready! Updating resources...");
+                setResources({ ...window.phaserGame.scene.scenes[0].resources });
+                clearInterval(interval); // ✅ Stop checking once Phaser is initialized
+            } else {
+                console.warn("⏳ Waiting for Phaser to initialize...");
+            }
+        }, 500); // ✅ Check every 500ms instead of 1000ms for faster response
     
-    //  References to the PhaserGame component (game and scene are exposed)
-    const phaserRef = useRef();
-    const [spritePosition, setSpritePosition] = useState({ x: 0, y: 0 });
+        return () => clearInterval(interval); // ✅ Clean up interval when unmounting
+    }, []);
+    
 
-    const changeScene = () => {
-
-        const scene = phaserRef.current.scene;
-
-        if (scene)
-        {
-            scene.changeScene();
+    const handleEndTurn = () => {
+        if (!window.phaserGame || !window.phaserGame.scene || !window.phaserGame.scene.scenes[0]) {
+            console.error("🚨 Phaser game or scenes not initialized properly.");
+            return;
         }
-    }
 
-    const moveSprite = () => {
+        const gameScene = window.phaserGame.scene.scenes[0];
 
-        const scene = phaserRef.current.scene;
-
-        if (scene && scene.scene.key === 'MainMenu')
-        {
-            // Get the update logo position
-            scene.moveLogo(({ x, y }) => {
-
-                setSpritePosition({ x, y });
-
-            });
+        if (!gameScene.generateResources) {
+            console.error("🚨 generateResources() function is missing in Game.js!");
+            return;
         }
-    }
 
-    const addSprite = () => {
+        gameScene.generateResources();
+        setResources({ ...gameScene.resources });
 
-        const scene = phaserRef.current.scene;
-
-        if (scene)
-        {
-            // Add more stars
-            const x = Phaser.Math.Between(64, scene.scale.width - 64);
-            const y = Phaser.Math.Between(64, scene.scale.height - 64);
-
-            //  `add.sprite` is a Phaser GameObjectFactory method and it returns a Sprite Game Object instance
-            const star = scene.add.sprite(x, y, 'star');
-
-            //  ... which you can then act upon. Here we create a Phaser Tween to fade the star sprite in and out.
-            //  You could, of course, do this from within the Phaser Scene code, but this is just an example
-            //  showing that Phaser objects and systems can be acted upon from outside of Phaser itself.
-            scene.add.tween({
-                targets: star,
-                duration: 500 + Math.random() * 1000,
-                alpha: 0,
-                yoyo: true,
-                repeat: -1
-            });
-        }
-    }
-
-    // Event emitted from the PhaserGame component
-    const currentScene = (scene) => {
-
-        setCanMoveSprite(scene.scene.key !== 'MainMenu');
-        
-    }
+        console.log("✅ End turn processed. New resources:", gameScene.resources);
+    };
 
     return (
-        <div id="app">
-            <PhaserGame ref={phaserRef} currentActiveScene={currentScene} />
-            <div>
-                <div>
-                    <button className="button" onClick={changeScene}>Change Scene</button>
-                </div>
-                <div>
-                    <button disabled={canMoveSprite} className="button" onClick={moveSprite}>Toggle Movement</button>
-                </div>
-                <div className="spritePosition">Sprite Position:
-                    <pre>{`{\n  x: ${spritePosition.x}\n  y: ${spritePosition.y}\n}`}</pre>
-                </div>
-                <div>
-                    <button className="button" onClick={addSprite}>Add New Sprite</button>
-                </div>
+        <Router> {/* ✅ Wrap in Router to enable navigation */}
+            <div id="app">
+                {/* Navigation Buttons */}
+                <nav style={{ display: "flex", gap: "10px", marginBottom: "20px" }}>
+                    <Link to="/"><button>🏠 Game</button></Link>
+                    <Link to="/quiz"><button>🧠 Take Quiz</button></Link>
+                </nav>
+
+                {/* Routes to Switch Between Game and Quiz */}
+                <Routes>
+                    <Route path="/" element={
+                        <>
+                            <div className="resource-bar">
+                                <span>🍞 Food: {resources.food}</span>
+                                <span>🌲 Wood: {resources.wood}</span>
+                                <span>🏗 Metal: {resources.metal}</span>
+                                <span>🧠 Tech: {resources.tech}</span>
+                            </div>
+                            <button className="end-turn-button" onClick={handleEndTurn}>End Turn</button>
+                            <PhaserGame />
+                        </>
+                    }/>
+                    <Route path="/quiz" element={<QuizPage />} />
+                </Routes>
             </div>
-        </div>
-    )
+        </Router>
+    );
 }
 
-export default App
+export default App;

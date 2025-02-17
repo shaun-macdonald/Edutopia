@@ -1,63 +1,30 @@
-import PropTypes from 'prop-types';
-import { forwardRef, useEffect, useLayoutEffect, useRef } from 'react';
-import StartGame from './main';
-import { EventBus } from './EventBus';
+import { useEffect, useRef } from 'react';
+import Phaser from 'phaser';
+import { Game } from './scenes/Game.js'; 
 
-export const PhaserGame = forwardRef(function PhaserGame ({ currentActiveScene }, ref)
-{
-    const game = useRef();
-
-    // Create the game inside a useLayoutEffect hook to avoid the game being created outside the DOM
-    useLayoutEffect(() => {
-        
-        if (game.current === undefined)
-        {
-            game.current = StartGame("game-container");
-            
-            if (ref !== null)
-            {
-                ref.current = { game: game.current, scene: null };
-            }
-        }
-
-        return () => {
-
-            if (game.current)
-            {
-                game.current.destroy(true);
-                game.current = undefined;
-            }
-
-        }
-    }, [ref]);
+export const PhaserGame = () => {               //Used to hold a reference for Phaseers game cont
+    const gameContainer = useRef(null);
 
     useEffect(() => {
+        if (!gameContainer.current) return;
 
-        EventBus.on('current-scene-ready', (currentScene) => {
-
-            if (currentActiveScene instanceof Function)
-            {
-                currentActiveScene(currentScene);
-            }
-            ref.current.scene = currentScene;
-            
+        console.log("Initializing Phaser...");
+        window.phaserGame = new Phaser.Game({
+            type: Phaser.AUTO,
+            width: 1100,
+            height: 500,
+            parent: gameContainer.current,
+            scene: [Game],
         });
 
+        console.log("Phaser game is fully initialized!");
+
         return () => {
+            console.log("eDestroying Phaser game...");
+            window.phaserGame.destroy(true);
+            window.phaserGame = null;
+        };
+    }, []);
 
-            EventBus.removeListener('current-scene-ready');
-
-        }
-        
-    }, [currentActiveScene, ref])
-
-    return (
-        <div id="game-container"></div>
-    );
-
-});
-
-// Props definitions
-PhaserGame.propTypes = {
-    currentActiveScene: PropTypes.func 
-}
+    return <div ref={gameContainer} id="game-container" />;
+};
