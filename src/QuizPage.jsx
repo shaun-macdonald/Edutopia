@@ -1,86 +1,90 @@
-import React, { useState } from "react";
-
-// Load Skulpt when the component mounts
-const loadSkulpt = () => {
-    if (!window.Sk) {
-        const script = document.createElement("script");
-        script.src = "https://cdn.jsdelivr.net/gh/skulpt/skulpt@master/skulpt.min.js"; // ✅ Alternative Skulpt source
-        script.async = true;
-        document.body.appendChild(script);
-
-        const script2 = document.createElement("script");
-        script2.src = "https://cdn.jsdelivr.net/gh/skulpt/skulpt@master/skulpt-stdlib.js"; // ✅ Alternative Skulpt source
-        script2.async = true;
-        document.body.appendChild(script2);
-    }
-};
+import React, { useState, useEffect } from "react";
 
 const QuizPage = ({ updateTech }) => {
-    const [code, setCode] = useState('print("Hello, World!")');
+    const [questions, setQuestions] = useState([]);
+    const [currentQuestion, setCurrentQuestion] = useState(null);
+    const [selectedOption, setSelectedOption] = useState("");
+    const [code, setCode] = useState("");
     const [output, setOutput] = useState("");
     const [feedback, setFeedback] = useState("");
 
-    // Function to execute Python code in Skulpt
-    const runPython = () => {
-        if (!window.Sk) {
-            setOutput("⚠ Skulpt is still loading, please wait...");
-            return;
-        }
-
-        try {
-            window.Sk.configure({
-                output: (text) => setOutput(prev => prev + text),
-                read: (x) => {
-                    if (window.Sk.builtinFiles === undefined || window.Sk.builtinFiles["files"][x] === undefined)
-                        throw "File not found: " + x;
-                    return window.Sk.builtinFiles["files"][x];
-                }
+    // Fetch questions from JSON
+    useEffect(() => {
+        fetch("/questions.json")
+            .then((res) => res.json())
+            .then((data) => {
+                setQuestions(data);
+                setCurrentQuestion(data[Math.floor(Math.random() * data.length)]); // Pick a random question
             });
+    }, []);
 
-            setOutput(""); // Clear previous output
-            window.Sk.misceval.asyncToPromise(() => window.Sk.importMainWithBody("<stdin>", false, code));
-        } catch (err) {
-            setOutput("Error: " + err.toString());
-        }
+    // Handle MCQ selection
+    const handleOptionChange = (event) => {
+        setSelectedOption(event.target.value);
     };
 
-    // Function to check if the user's code is correct
+    // Function to check the user's answer
     const checkAnswer = () => {
-        if (output.trim() === "42") {
-            setFeedback("✅ Correct! You earned 5 Tech.");
-            updateTech(5); // Reward Tech points
-        } else {
-            setFeedback("❌ Incorrect. Try again!");
+        if (!currentQuestion) return;
+
+        if (currentQuestion.type === "code") {
+            if (output.trim() === currentQuestion.correctOutput) {
+                setFeedback("✅ Correct! You earned 5 Tech.");
+                updateTech(5);
+            } else {
+                setFeedback("❌ Incorrect. Try again!");
+            }
+        } else if (currentQuestion.type === "mcq") {
+            if (selectedOption === currentQuestion.correctAnswer) {
+                setFeedback("✅ Correct! You earned 5 Tech.");
+                updateTech(5);
+            } else {
+                setFeedback("❌ Incorrect. The correct answer is: " + currentQuestion.correctAnswer);
+            }
         }
     };
 
     return (
         <div>
-            <h1>Python Coding Challenge</h1>
-            <p>Write a Python function that prints "42".</p>
+            <h1>Quiz Challenge</h1>
+            {currentQuestion && <p>{currentQuestion.question}</p>}
 
-            {/* Python Code Editor */}
-            <textarea
-                value={code}
-                onChange={(e) => setCode(e.target.value)}
-                rows={5}
-                cols={50}
-            ></textarea>
+            {/* Display Multiple-Choice Question */}
+            {currentQuestion?.type === "mcq" && (
+                <div>
+                    {currentQuestion.options.map((option, index) => (
+                        <label key={index} style={{ display: "block", margin: "5px 0" }}>
+                            <input
+                                type="radio"
+                                name="mcq"
+                                value={option}
+                                checked={selectedOption === option}
+                                onChange={handleOptionChange}
+                            />
+                            {option}
+                        </label>
+                    ))}
+                </div>
+            )}
+
+            {/* Display Python Code Editor */}
+            {currentQuestion?.type === "code" && (
+                <>
+                    <textarea
+                        value={code}
+                        onChange={(e) => setCode(e.target.value)}
+                        rows={5}
+                        cols={50}
+                    />
+                    <button onClick={checkAnswer}>Submit</button>
+                </>
+            )}
+
             <br />
-            <button onClick={runPython}>Run Code</button>
-
-            {/* Display Python Output */}
-            <h3>Output:</h3>
-            <pre>{output}</pre>
-
-            {/* Check Answer Button */}
             <button onClick={checkAnswer}>Submit Answer</button>
             <p>{feedback}</p>
         </div>
     );
 };
-
-// Load Skulpt once when the page opens
-loadSkulpt();
 
 export default QuizPage;

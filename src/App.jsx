@@ -23,7 +23,15 @@ function App() {
     
         return () => clearInterval(interval); // ✅ Clean up interval when unmounting
     }, []);
-    
+
+    // ✅ Function to update Tech points from the quiz
+    const updateTech = (points) => {
+        setResources(prevResources => ({
+            ...prevResources,
+            tech: prevResources.tech + points // ✅ Add new Tech points
+        }));
+        console.log(`🎉 Earned ${points} Tech! New total:`, resources.tech + points);
+    };
 
     const handleEndTurn = () => {
         if (!window.phaserGame || !window.phaserGame.scene || !window.phaserGame.scene.scenes[0]) {
@@ -61,13 +69,13 @@ function App() {
                                 <span>🍞 Food: {resources.food}</span>
                                 <span>🌲 Wood: {resources.wood}</span>
                                 <span>🏗 Metal: {resources.metal}</span>
-                                <span>🧠 Tech: {resources.tech}</span>
+                                <span>🧠 Tech: {resources.tech}</span> {/* ✅ Tech updates here */}
                             </div>
                             <button className="end-turn-button" onClick={handleEndTurn}>End Turn</button>
                             <PhaserGame />
                         </>
                     }/>
-                    <Route path="/quiz" element={<QuizPage />} />
+                    <Route path="/quiz" element={<QuizPage updateTech={updateTech} />} /> {/* ✅ Pass updateTech */}
                 </Routes>
             </div>
         </Router>
