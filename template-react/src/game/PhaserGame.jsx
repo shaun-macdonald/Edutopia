@@ -1,11 +1,17 @@
 import { useEffect, useRef } from 'react';
 import Phaser from 'phaser';
-import { Game } from './scenes/Game.js'; 
+import { Game } from './scenes/Game.js';
 
-export const PhaserGame = () => {               //Used to hold a reference for Phaseers game cont
+export const PhaserGame = () => {
     const gameContainer = useRef(null);
 
     useEffect(() => {
+        // 🛑 Prevent Phaser from reinitializing if it already exists
+        if (window.phaserGame) {
+            console.warn("⚠️ Phaser is already initialized! Skipping new instance.");
+            return;
+        }
+
         if (!gameContainer.current) return;
 
         console.log("Initializing Phaser...");
@@ -17,12 +23,13 @@ export const PhaserGame = () => {               //Used to hold a reference for P
             scene: [Game],
         });
 
-        console.log("Phaser game is fully initialized!");
+        console.log("✅ Phaser game is fully initialized!");
 
         return () => {
-            console.log("eDestroying Phaser game...");
-            window.phaserGame.destroy(true);
-            window.phaserGame = null;
+            // 🛑 Remove this line to prevent Phaser from being destroyed
+            // console.log("Destroying Phaser game...");
+            // window.phaserGame.destroy(true);
+            // window.phaserGame = null;
         };
     }, []);
 
