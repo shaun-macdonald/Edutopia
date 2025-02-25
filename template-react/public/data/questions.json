@@ -1,0 +1,197 @@
+[
+  {
+    "id": 1,
+    "type": "Programming",
+    "difficulty": "easy",
+    "question": "What symbol is used for comments in JavaScript?",
+    "options": [
+      "//",
+      "#",
+      "/* */",
+      "--"
+    ],
+    "correctAnswer": "//"
+  },
+  {
+    "id": 2,
+    "type": "Programming",
+    "difficulty": "easy",
+    "question": "Which of the following is NOT a JavaScript data type?",
+    "options": [
+      "string",
+      "boolean",
+      "integer",
+      "object"
+    ],
+    "correctAnswer": "integer"
+  },
+  {
+    "id": 3,
+    "type": "Programming",
+    "difficulty": "easy",
+    "question": "What does HTML stand for?",
+    "options": [
+      "Hyper Text Markup Language",
+      "High Tech Modern Language",
+      "Hyperlink Text Management Language",
+      "Home Tool Markup Language"
+    ],
+    "correctAnswer": "Hyper Text Markup Language"
+  },
+  {
+    "id": 4,
+    "type": "Programming",
+    "difficulty": "medium",
+    "question": "What will `console.log(2 + \"2\")` output in JavaScript?",
+    "options": [
+      4,
+      22,
+      22,
+      "Error"
+    ],
+    "correctAnswer": "\"22\""
+  },
+  {
+    "id": 5,
+    "type": "Programming",
+    "difficulty": "medium",
+    "question": "Which method adds an element to the end of an array in JavaScript?",
+    "options": [
+      "push()",
+      "pop()",
+      "shift()",
+      "unshift()"
+    ],
+    "correctAnswer": "push()"
+  },
+  {
+    "id": 6,
+    "type": "Programming",
+    "difficulty": "medium",
+    "question": "What is the correct way to create a function in JavaScript?",
+    "options": [
+      "function myFunction()",
+      "function = myFunction()",
+      "function:myFunction()",
+      "def myFunction()"
+    ],
+    "correctAnswer": "function myFunction()"
+  },
+  {
+    "id": 7,
+    "type": "Programming",
+    "difficulty": "hard",
+    "question": "What is the output of `console.log(typeof NaN)` in JavaScript?",
+    "options": [
+      "number",
+      "NaN",
+      "undefined",
+      "null"
+    ],
+    "correctAnswer": "number"
+  },
+  {
+    "id": 8,
+    "type": "Programming",
+    "difficulty": "hard",
+    "question": "Which array method creates a new array with the results of calling a function on every element?",
+    "options": [
+      "map()",
+      "filter()",
+      "reduce()",
+      "forEach()"
+    ],
+    "correctAnswer": "map()"
+  },
+  {
+    "id": 9,
+    "type": "Programming",
+    "difficulty": "easy",
+    "question": "Which CSS property is used to change the text color?",
+    "options": [
+      "color",
+      "text-color",
+      "font-color",
+      "text-style"
+    ],
+    "correctAnswer": "color"
+  },
+  {
+    "id": 10,
+    "type": "Programming",
+    "difficulty": "easy",
+    "question": "In React what hook is used to perform side effects?",
+    "options": [
+      "useEffect",
+      "useState",
+      "useContext",
+      "useReducer"
+    ],
+    "correctAnswer": "useEffect"
+  },
+  {
+    "id": 11,
+    "type": "Programming",
+    "difficulty": "medium",
+    "question": "What does the === operator do in JavaScript?",
+    "options": [
+      "Checks for equality with type conversion",
+      "Assigns a value",
+      "Checks for equality without type conversion",
+      "Checks if variables are defined"
+    ],
+    "correctAnswer": "Checks for equality without type conversion"
+  },
+  {
+    "id": 12,
+    "type": "Programming",
+    "difficulty": "medium",
+    "question": "What is the correct way to import a component in React?",
+    "options": [
+      "import Component from './Component'",
+      "require('./Component')",
+      "include Component from './Component'",
+      "import './Component'"
+    ],
+    "correctAnswer": "import Component from './Component'"
+  },
+  {
+    "id": 13,
+    "type": "Programming",
+    "difficulty": "hard",
+    "question": "What is a closure in JavaScript?",
+    "options": [
+      "A way to protect variables",
+      "A function with access to its outer function's scope",
+      "A method to close connections",
+      "A debugging technique"
+    ],
+    "correctAnswer": "A function with access to its outer function's scope"
+  },
+  {
+    "id": 14,
+    "type": "Programming",
+    "difficulty": "hard",
+    "question": "Which of these is NOT a valid way to create an object in JavaScript?",
+    "options": [
+      "const obj = {}",
+      "const obj = new Object()",
+      "const obj = Object.create(null)",
+      "const obj = Object()"
+    ],
+    "correctAnswer": "const obj = Object()"
+  },
+  {
+    "id": 15,
+    "type": "Programming",
+    "difficulty": "medium",
+    "question": "What does CSS stand for?",
+    "options": [
+      "Cascading Style Sheets",
+      "Computer Style Sheets",
+      "Creative Style System",
+      "Colorful Style Sheets"
+    ],
+    "correctAnswer": "Cascading Style Sheets"
+  }
+]

@@ -4,12 +4,25 @@ import { Game } from './scenes/Game.js';
 
 export const PhaserGame = () => {
     const gameContainer = useRef(null);
+    console.log("📌 Mounting PhaserGame.jsx...");
 
     useEffect(() => {
-        // 🛑 Prevent Phaser from reinitializing if it already exists
+        // 🛑 Save game state before destroying Phaser
         if (window.phaserGame) {
-            console.warn("⚠️ Phaser is already initialized! Skipping new instance.");
-            return;
+            console.warn("🛑 Saving game state before destroying Phaser...");
+            const gameScene = window.phaserGame.scene.scenes[0];
+
+            if (gameScene) {
+                const savedState = {
+                    ownedTiles: gameScene.ownedTiles,
+                    resources: gameScene.resources,
+                };
+                localStorage.setItem("gameState", JSON.stringify(savedState));
+            }
+
+            console.warn("🛑 Destroying previous Phaser instance...");
+            window.phaserGame.destroy(true);
+            window.phaserGame = null;
         }
 
         if (!gameContainer.current) return;
@@ -26,10 +39,21 @@ export const PhaserGame = () => {
         console.log("✅ Phaser game is fully initialized!");
 
         return () => {
-            // 🛑 Remove this line to prevent Phaser from being destroyed
-            // console.log("Destroying Phaser game...");
-            // window.phaserGame.destroy(true);
-            // window.phaserGame = null;
+            console.log("♻️ Cleaning up Phaser instance...");
+            if (window.phaserGame) {
+                const gameScene = window.phaserGame.scene.scenes[0];
+
+                if (gameScene) {
+                    const savedState = {
+                        ownedTiles: gameScene.ownedTiles,
+                        resources: gameScene.resources,
+                    };
+                    localStorage.setItem("gameState", JSON.stringify(savedState));
+                }
+
+                window.phaserGame.destroy(true);
+                window.phaserGame = null;
+            }
         };
     }, []);
 

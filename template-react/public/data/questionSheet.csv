@@ -1,0 +1,16 @@
+Question ID,Type,Difficulty,Question,Option A,Option B,Option C,Option D,Correct Answer
+1,Programming,easy,What symbol is used for comments in JavaScript?,//,#,/* */,--,//
+2,Programming,easy,Which of the following is NOT a JavaScript data type?,string,boolean,integer,object,integer
+3,Programming,easy,What does HTML stand for?,Hyper Text Markup Language,High Tech Modern Language,Hyperlink Text Management Language,Home Tool Markup Language,Hyper Text Markup Language
+4,Programming,medium,"What will `console.log(2 + ""2"")` output in JavaScript?",4,22,22,Error,"""22"""
+5,Programming,medium,Which method adds an element to the end of an array in JavaScript?,push(),pop(),shift(),unshift(),push()
+6,Programming,medium,What is the correct way to create a function in JavaScript?,function myFunction(),function = myFunction(),function:myFunction(),def myFunction(),function myFunction()
+7,Programming,hard,What is the output of `console.log(typeof NaN)` in JavaScript?,number,NaN,undefined,null,number
+8,Programming,hard,Which array method creates a new array with the results of calling a function on every element?,map(),filter(),reduce(),forEach(),map()
+9,Programming,easy,Which CSS property is used to change the text color?,color,text-color,font-color,text-style,color
+10,Programming,easy,In React what hook is used to perform side effects?,useEffect,useState,useContext,useReducer,useEffect
+11,Programming,medium,What does the === operator do in JavaScript?,Checks for equality with type conversion,Assigns a value,Checks for equality without type conversion,Checks if variables are defined,Checks for equality without type conversion
+12,Programming,medium,What is the correct way to import a component in React?,import Component from './Component',require('./Component'),include Component from './Component',import './Component',import Component from './Component'
+13,Programming,hard,What is a closure in JavaScript?,A way to protect variables,A function with access to its outer function's scope,A method to close connections,A debugging technique,A function with access to its outer function's scope
+14,Programming,hard,Which of these is NOT a valid way to create an object in JavaScript?,const obj = {},const obj = new Object(),const obj = Object.create(null),const obj = Object(),const obj = Object()
+15,Programming,medium,What does CSS stand for?,Cascading Style Sheets,Computer Style Sheets,Creative Style System,Colorful Style Sheets,Cascading Style Sheets

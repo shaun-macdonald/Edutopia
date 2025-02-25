@@ -28,8 +28,37 @@ export class Game extends Scene {
             .map(name => map.addTilesetImage(name, name));
     
         this.layer = map.createLayer('Tile Layer 1', loadedTilesets, 0, 0);
-    
+        
+        // Initialize resources and owned tiles
+        this.resources = { food: 0, wood: 0, metal: 0, tech: 0 };
         this.ownedTiles = [];
+        this.playerStartTile = { x: 1, y: 8 };
+        
+        // Load saved game state
+        const savedState = localStorage.getItem("gameState");
+        if (savedState) {
+            const parsedState = JSON.parse(savedState);
+            if (parsedState.ownedTiles && parsedState.ownedTiles.length > 0) {
+                this.ownedTiles = parsedState.ownedTiles;
+                console.log("♻️ Restored owned tiles:", this.ownedTiles);
+            } else {
+                // If no owned tiles found, start with the player tile
+                this.ownedTiles = [{ x: this.playerStartTile.x, y: this.playerStartTile.y }];
+            }
+            
+            if (parsedState.resources) {
+                this.resources = parsedState.resources;
+                console.log("♻️ Restored resources:", this.resources);
+                
+                // Update React with the restored resources
+                if (window.updateReactResources) {
+                    window.updateReactResources(this.resources);
+                }
+            }
+        } else {
+            // First time playing - start with just the player tile
+            this.ownedTiles = [{ x: this.playerStartTile.x, y: this.playerStartTile.y }];
+        }
     
         this.input.on('pointerdown', (pointer) => {
             const worldPoint = pointer.positionToCamera(this.cameras.main);
@@ -53,16 +82,10 @@ export class Game extends Scene {
             9: { type: "none", amount: 0, cost: 0 }
         };
     
-        this.resources = { food: 0, wood: 0, metal: 0, tech: 0 };
-    
-        console.log("Game initialized!");
-    
-        this.playerStartTile = { x: 1, y: 8 };
-        this.ownedTiles.push({ x: this.playerStartTile.x, y: this.playerStartTile.y });
-
-        console.log("Player starts with tile:", this.ownedTiles);
-    
-        console.log("Tile Layer Data:", this.layer);
+        console.log("Game initialized with owned tiles:", this.ownedTiles);
+        
+        // Apply visual effects to owned tiles
+        this.reapplyTileVisuals();
     
         const tileWidth = map.tileWidth || 55;
         const tileHeight = map.tileHeight || 64;
@@ -86,13 +109,31 @@ export class Game extends Scene {
             .setDepth(100);
     }
     
+    // New method to reapply visual effects to owned tiles
+    reapplyTileVisuals() {
+        if (!this.layer) return;
+        
+        this.ownedTiles.forEach(({ x, y }) => {
+            const tile = this.layer.getTileAt(x, y);
+            if (tile) {
+                // Apply the visual effect for owned tiles
+                tile.alpha = 0.7;
+            }
+        });
+    }
+    
     generateResources() {
         if (!this.layer) {
             console.error("Layer is not defined!");
             return;
         }
     
-        let newResources = { food: 0, wood: 0, metal: 0, tech: this.resources.tech };
+        let newResources = { 
+            food: 0, 
+            wood: 0, 
+            metal: 0, 
+            tech: this.resources.tech // ✅ Preserve tech points 
+        };
     
         this.ownedTiles.forEach(({ x, y }) => {
             const tile = this.layer.getTileAt(x, y);
@@ -112,12 +153,25 @@ export class Game extends Scene {
         this.resources.food += newResources.food;
         this.resources.wood += newResources.wood;
         this.resources.metal += newResources.metal;
+        this.resources.tech = newResources.tech; // ✅ Keep accumulated tech points
     
-        console.log("Resources Updated:", this.resources);
+        console.log("🔄 Resources Updated:", this.resources);
     
         if (window.updateReactResources) {
             window.updateReactResources(this.resources);
         }
+        
+        // Save the state after generating resources
+        this.saveGameState();
+    }
+    
+    saveGameState() {
+        const savedState = {
+            ownedTiles: this.ownedTiles,
+            resources: this.resources,
+        };
+        localStorage.setItem("gameState", JSON.stringify(savedState));
+        console.log("💾 Game state saved");
     }
 
     handleTileClick(tile) {
@@ -154,6 +208,9 @@ export class Game extends Scene {
         this.layer.putTileAt(tileIndex, x, y).alpha = 0.7;
     
         console.log(`Tile at (${x}, ${y}) claimed! Tint applied.`);
+        
+        // Save state after claiming a tile
+        this.saveGameState();
     }
     
     isTileOwned(x, y) {
@@ -184,5 +241,10 @@ export class Game extends Scene {
         }
 
         console.log("Resources after spending:", this.resources);
+        
+        // Update React with updated resources
+        if (window.updateReactResources) {
+            window.updateReactResources(this.resources);
+        }
     }
 }
