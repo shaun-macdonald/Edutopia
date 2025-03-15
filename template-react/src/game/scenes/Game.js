@@ -122,48 +122,51 @@ export class Game extends Scene {
         });
     }
     
-    generateResources() {
-        if (!this.layer) {
-            console.error("Layer is not defined!");
-            return;
-        }
-    
-        let newResources = { 
-            food: 0, 
-            wood: 0, 
-            metal: 0, 
-            tech: this.resources.tech // ✅ Preserve tech points 
-        };
-    
-        this.ownedTiles.forEach(({ x, y }) => {
-            const tile = this.layer.getTileAt(x, y);
-            if (tile) {
-                const resourceData = this.tileResourceMap[tile.index];
-    
-                if (x === this.playerStartTile.x && y === this.playerStartTile.y) {
-                    newResources.food += 1;
-                    newResources.wood += 1;
-                    newResources.metal += 1;
-                } else if (resourceData && resourceData.type !== 'none') {
-                    newResources[resourceData.type] += resourceData.amount;
-                }
-            }
-        });
-    
-        this.resources.food += newResources.food;
-        this.resources.wood += newResources.wood;
-        this.resources.metal += newResources.metal;
-        this.resources.tech = newResources.tech; // ✅ Keep accumulated tech points
-    
-        console.log("🔄 Resources Updated:", this.resources);
-    
-        if (window.updateReactResources) {
-            window.updateReactResources(this.resources);
-        }
-        
-        // Save the state after generating resources
-        this.saveGameState();
+    // In Game.js, modify the generateResources function:
+
+generateResources() {
+    if (!this.layer) {
+        console.error("Layer is not defined!");
+        return;
     }
+
+    let newResources = { 
+        food: 0, 
+        wood: 0, 
+        metal: 0, 
+        tech: this.resources.tech // Store current tech value
+    };
+
+    this.ownedTiles.forEach(({ x, y }) => {
+        const tile = this.layer.getTileAt(x, y);
+        if (tile) {
+            const resourceData = this.tileResourceMap[tile.index];
+
+            if (x === this.playerStartTile.x && y === this.playerStartTile.y) {
+                newResources.food += 1;
+                newResources.wood += 1;
+                newResources.metal += 1;
+            } else if (resourceData && resourceData.type !== 'none') {
+                newResources[resourceData.type] += resourceData.amount;
+            }
+        }
+    });
+
+    // Add new resources to existing ones
+    this.resources.food += newResources.food;
+    this.resources.wood += newResources.wood;
+    this.resources.metal += newResources.metal;
+    // Don't modify tech points here - they should remain as is
+
+    console.log("🔄 Resources Updated:", this.resources);
+
+    if (window.updateReactResources) {
+        window.updateReactResources(this.resources);
+    }
+    
+    // Save the state after generating resources
+    this.saveGameState();
+}
     
     saveGameState() {
         const savedState = {

@@ -26,7 +26,6 @@
         "dev-nolog": "vite --config vite/config.dev.mjs",
         "build-nolog": "vite build --config vite/config.prod.mjs",
         "start": "vite"
-        
     },
     "dependencies": {
         "phaser": "^3.87.0",
@@ -43,6 +42,6 @@
         "eslint-plugin-react-hooks": "^4.6.2",
         "eslint-plugin-react-refresh": "^0.4.7",
         "terser": "^5.28.1",
-        "vite": "^5.3.1"
+        "vite": "^5.4.14"
     }
 }

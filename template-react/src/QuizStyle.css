@@ -1,0 +1,180 @@
+/* GeoGuessr-inspired quiz styling */
+.quiz-container {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background: linear-gradient(135deg, #1a2a3a 0%, #0c1824 100%);
+    color: white;
+    overflow: hidden;
+    position: relative;
+  }
+  
+  /* Question styling */
+  .question-area {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    margin-top: 5%;
+    text-align: center;
+  }
+  
+  .question-text {
+    font-size: 2.5rem;
+    font-weight: 700;
+    text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5);
+    padding: 0.5rem 2rem;
+    border-radius: 8px;
+    background-color: rgba(0, 0, 0, 0.3);
+    max-width: 80%;
+    margin: 0 auto;
+  }
+  
+  /* Options area */
+  .options-area {
+    width: 100%;
+    padding: 2rem;
+    margin-bottom: 3%;
+  }
+  
+  .options-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    gap: 1rem;
+    max-width: 90%;
+    margin: 0 auto;
+  }
+  
+  /* Option buttons */
+  .option-button {
+    display: flex;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 1rem;
+    color: white;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    height: 70px;
+    overflow: hidden;
+    position: relative;
+  }
+  
+  .option-button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+  }
+  
+  .option-button.selected {
+    border-color: #4CAF50;
+    background-color: rgba(76, 175, 80, 0.2);
+  }
+  
+  .option-letter {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    margin-right: 15px;
+    flex-shrink: 0;
+  }
+  
+  .option-text {
+    flex: 1;
+    text-align: left;
+    font-size: 1.1rem;
+  }
+  
+  /* Submit button */
+  .submit-button {
+    display: block;
+    margin: 1.5rem auto 0;
+    padding: 1rem 2.5rem;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .submit-button:hover {
+    background-color: #45a049;
+    transform: translateY(-2px);
+  }
+  
+  /* Feedback message */
+  .feedback {
+    text-align: center;
+    margin: 1.5rem auto 0;
+    padding: 1rem;
+    border-radius: 5px;
+    font-size: 1.2rem;
+    max-width: 400px;
+    animation: fadeIn 0.5s ease;
+  }
+  
+  .feedback.correct {
+    background-color: rgba(76, 175, 80, 0.2);
+    border: 1px solid #4CAF50;
+  }
+  
+  .feedback.incorrect {
+    background-color: rgba(244, 67, 54, 0.2);
+    border: 1px solid #F44336;
+  }
+  
+  /* Loading state */
+  .quiz-loading {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #1a2a3a 0%, #0c1824 100%);
+    color: white;
+    font-size: 1.5rem;
+  }
+  
+  /* Animation */
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  /* Back to game button */
+  .back-to-game {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .back-to-game:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .options-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .question-text {
+      font-size: 1.8rem;
+    }
+  }

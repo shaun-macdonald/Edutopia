@@ -1,70 +1,96 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom"; // Make sure this import is included
+import "./QuizStyle.css";
 
 const QuizPage = ({ updateTech }) => {
     const [questions, setQuestions] = useState([]);
     const [currentQuestion, setCurrentQuestion] = useState(null);
     const [selectedOption, setSelectedOption] = useState("");
     const [feedback, setFeedback] = useState("");
+    const [showFeedback, setShowFeedback] = useState(false);
 
-    // ✅ Fetch questions from JSON
+    // Fetch questions from JSON
     useEffect(() => {
-        fetch("/data/questions.json")  // Load from public/data/questions.json
+        fetch("/data/questions.json")
             .then(res => res.json())
             .then(data => {
                 setQuestions(data);
-                setCurrentQuestion(data[Math.floor(Math.random() * data.length)]); // Pick a random question
+                setCurrentQuestion(data[Math.floor(Math.random() * data.length)]);
             })
-            .catch(err => console.error("❌ Error loading questions:", err));
+            .catch(err => console.error("Error loading questions:", err));
     }, []);
 
-    // ✅ Handle answer selection
-    const handleOptionChange = (event) => {
-        setSelectedOption(event.target.value);
+    // Handle answer selection
+    const handleOptionSelect = (option) => {
+        setSelectedOption(option);
     };
 
-    // ✅ Check the answer
+    // Check the answer
     const checkAnswer = () => {
-        if (!currentQuestion) return;
+        if (!currentQuestion || !selectedOption) return;
+
+        setShowFeedback(true);
 
         if (selectedOption === currentQuestion.correctAnswer) {
-            setFeedback("✅ Correct! You earned 5 Tech.");
-            updateTech(5); // ✅ Award 5 Tech points
+            setFeedback("Correct! You earned 5 Tech points.");
+            updateTech(5);
         } else {
-            setFeedback(`❌ Incorrect. The correct answer is: ${currentQuestion.correctAnswer}`);
+            setFeedback(`Incorrect. The correct answer is: ${currentQuestion.correctAnswer}`);
         }
 
-        // ✅ Move to next question after 2 seconds
+        // Move to next question after delay
         setTimeout(() => {
             const newQuestion = questions[Math.floor(Math.random() * questions.length)];
             setCurrentQuestion(newQuestion);
-            setSelectedOption("");  // Reset selection
-            setFeedback("");  // Clear feedback
+            setSelectedOption("");
+            setFeedback("");
+            setShowFeedback(false);
         }, 2000);
     };
 
+    if (!currentQuestion) {
+        return <div className="quiz-loading">Loading questions...</div>;
+    }
+
     return (
-        <div>
-            <h1>Quiz Challenge</h1>
-            {currentQuestion && (
-                <>
-                    <p><strong>{currentQuestion.question}</strong></p>
+        <div className="quiz-container">
+            {/* Back to Game button in the top left */}
+            <Link to="/game">
+                <button className="back-to-game">← Back to Game</button>
+            </Link>
+            
+            {/* Question at the top center */}
+            <div className="question-area">
+                <h1 className="question-text">{currentQuestion.question}</h1>
+            </div>
+
+            {/* Options at the bottom */}
+            <div className="options-area">
+                <div className="options-grid">
                     {currentQuestion.options.map((option, index) => (
-                        <label key={index} style={{ display: "block", margin: "5px 0" }}>
-                            <input
-                                type="radio"
-                                name="mcq"
-                                value={option}
-                                checked={selectedOption === option}
-                                onChange={handleOptionChange}
-                            />
-                            {option}
-                        </label>
+                        <button
+                            key={index}
+                            className={`option-button ${selectedOption === option ? 'selected' : ''}`}
+                            onClick={() => handleOptionSelect(option)}
+                        >
+                            <span className="option-letter">{String.fromCharCode(65 + index)}</span>
+                            <span className="option-text">{option}</span>
+                        </button>
                     ))}
-                    <br />
-                    <button onClick={checkAnswer}>Submit Answer</button>
-                    <p>{feedback}</p>
-                </>
-            )}
+                </div>
+
+                {selectedOption && !showFeedback && (
+                    <button className="submit-button" onClick={checkAnswer}>
+                        Submit Answer
+                    </button>
+                )}
+
+                {showFeedback && (
+                    <div className={`feedback ${feedback.includes("Correct") ? "correct" : "incorrect"}`}>
+                        {feedback}
+                    </div>
+                )}
+            </div>
         </div>
     );
 };
