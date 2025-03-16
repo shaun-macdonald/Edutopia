@@ -1,6 +1,8 @@
 import { useEffect, useRef } from 'react';
 import Phaser from 'phaser';
 import { Game } from './scenes/Game.js';
+import "../GameStyle.css";
+
 
 // Global variable to track if we've already created a game instance
 let gameInstance = null;
@@ -58,4 +60,4 @@ export const PhaserGame = () => {
     }, []);
 
     return <div ref={gameContainer} id="game-container" />;
-};
+};  
