@@ -261,3 +261,12 @@ body {
   top: 0;
   left: 0;
 }
+
+/* Resource cap colouring */
+.resource-near-cap {
+  color: orange;
+}
+
+.resource-at-cap {
+  color: red;
+}

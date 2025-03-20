@@ -1,15 +1,18 @@
-import { useEffect, useRef } from 'react';
-import Phaser from 'phaser';
-import { Game } from './scenes/Game.js';
-import "../GameStyle.css";
-
+import { useEffect, useRef } from "react";
+import { useLocation } from "react-router-dom";
+import Phaser from "phaser";
+import { Game } from "./scenes/Game.js";
 
 // Global variable to track if we've already created a game instance
 let gameInstance = null;
 
 export const PhaserGame = () => {
     const gameContainer = useRef(null);
-    console.log("📌 Mounting PhaserGame.jsx...");
+    const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);
+    const gameMode = queryParams.get("mode") || "standard"; // Default mode
+
+    console.log("📌 Selected Game Mode:", gameMode); // Debugging
 
     useEffect(() => {
         if (!gameContainer.current) return;
@@ -17,35 +20,42 @@ export const PhaserGame = () => {
         // If no game instance exists, create one
         if (!gameInstance) {
             console.log("Creating new Phaser instance");
-            
+
             gameInstance = new Phaser.Game({
                 type: Phaser.AUTO,
                 width: 1100,
                 height: 500,
                 parent: gameContainer.current,
                 scene: [Game],
+                physics: { default: "arcade" },
+                data: { gameMode: gameMode } // Pass gameMode as data
             });
-            
+
             window.phaserGame = gameInstance;
-            console.log("✅ Phaser game is fully initialized!");
-        } 
-        // If we already have a game instance, just reparent it
-        else {
+            console.log("✅ Phaser game initialized!");
+        } else {
             console.log("Reusing existing Phaser instance");
-            
+
             // Reparent the canvas to our new container
             if (gameInstance.canvas && gameInstance.canvas.parentNode !== gameContainer.current) {
                 gameInstance.canvas.parentNode.removeChild(gameInstance.canvas);
                 gameContainer.current.appendChild(gameInstance.canvas);
             }
+            
+            // Update the game mode in the existing instance
+            if (gameInstance.scene && gameInstance.scene.scenes[0]) {
+                const gameScene = gameInstance.scene.scenes[0];
+                if (gameScene) {
+                    gameScene.gameMode = gameMode;
+                    console.log("Updated game mode in existing scene:", gameMode);
+                }
+            }
         }
 
-        // Only clean up the game when the component is truly unmounting
         return () => {
-            // Don't destroy the game instance on normal navigation
             console.log("Component unmounting, but preserving game instance");
-            
-            // Save game state just in case
+
+            // Save game state before unmounting
             if (gameInstance && gameInstance.scene && gameInstance.scene.scenes[0]) {
                 const gameScene = gameInstance.scene.scenes[0];
                 if (gameScene) {
@@ -57,7 +67,7 @@ export const PhaserGame = () => {
                 }
             }
         };
-    }, []);
+    }, [gameMode]);
 
     return <div ref={gameContainer} id="game-container" />;
-};  
+};

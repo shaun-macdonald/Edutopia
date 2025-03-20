@@ -1,8 +1,23 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const StartScreen = () => {
   const [playerName, setPlayerName] = useState("");
+  const [gameMode, setGameMode] = useState("standard");
+  const navigate = useNavigate();
+  
+  const handleStartGame = () => {
+    // Clear localStorage to start fresh
+    localStorage.removeItem("gameState");
+    console.log("Starting new game - cleared saved state");
+    
+    // Force a complete reload before navigating to ensure clean state
+    // This is more reliable than just navigating
+    window.location.href = `/game?mode=${gameMode}&t=${Date.now()}`;
+    
+    // The navigate won't be reached due to the page reload
+    // navigate(`/game?mode=${gameMode}`);
+  };
   
   return (
     <div className="start-screen">
@@ -26,12 +41,54 @@ const StartScreen = () => {
           />
         </div>
         
+        <div className="game-mode-selection">
+          <label>Select Game Mode:</label>
+          <div className="mode-options">
+            <label className="mode-option">
+              <input 
+                type="radio" 
+                name="gameMode" 
+                value="standard" 
+                checked={gameMode === "standard"}
+                onChange={() => setGameMode("standard")}
+              />
+              <span>Standard Mode</span>
+              <p className="mode-description">Resources from tiles and quizzes</p>
+            </label>
+            
+            <label className="mode-option">
+              <input 
+                type="radio" 
+                name="gameMode" 
+                value="quiz" 
+                checked={gameMode === "quiz"}
+                onChange={() => setGameMode("quiz")}
+              />
+              <span>Quiz Mode</span>
+              <p className="mode-description">Resources only from quiz answers</p>
+            </label>
+            
+            <label className="mode-option">
+              <input 
+                type="radio" 
+                name="gameMode" 
+                value="reduced" 
+                checked={gameMode === "reduced"}
+                onChange={() => setGameMode("reduced")}
+              />
+              <span>Challenge Mode</span>
+              <p className="mode-description">Reduced resources from tiles</p>
+            </label>
+          </div>
+        </div>
+        
         <div className="start-buttons">
-          <Link to="/game">
-            <button className="start-button">
-              Start Game
-            </button>
-          </Link>
+          <button 
+            className="start-button" 
+            onClick={handleStartGame}
+          >
+            Start Game
+          </button>
           
           <Link to="/instructions">
             <button className="instructions-button">
@@ -44,5 +101,4 @@ const StartScreen = () => {
   );
 };
 
-// This export statement is critical
 export default StartScreen;

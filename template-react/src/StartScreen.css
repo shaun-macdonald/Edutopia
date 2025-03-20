@@ -1,4 +1,5 @@
 /* StartScreen.css */
+
 .start-screen {
     display: flex;
     flex-direction: column;
@@ -92,3 +93,78 @@
     background-color: #2980b9;
     transform: translateY(-2px);
   }
+
+  /* Game Mode Selection */
+.game-mode {
+  margin-bottom: 2rem;
+}
+
+.game-mode label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+.game-mode select {
+  width: 100%;
+  padding: 0.8rem;
+  font-size: 1rem;
+  border: 2px solid #ddd;
+  border-radius: 5px;
+  background-color: white;
+  cursor: pointer;
+}
+
+.game-mode-selection {
+  margin-bottom: 2rem;
+  text-align: left;
+}
+
+.game-mode-selection > label {
+  display: block;
+  margin-bottom: 0.8rem;
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+.mode-options {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.mode-option {
+  display: flex;
+  align-items: flex-start;
+  padding: 0.8rem;
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.mode-option:hover {
+  background-color: rgba(255, 255, 255, 0.9);
+  transform: translateY(-2px);
+}
+
+.mode-option input {
+  margin-top: 0.3rem;
+  margin-right: 0.8rem;
+}
+
+.mode-option span {
+  font-weight: bold;
+  font-size: 1.1rem;
+  color: #2c3e50;
+  display: block;
+  margin-bottom: 0.3rem;
+}
+
+.mode-description {
+  margin: 0;
+  color: #7f8c8d;
+  font-size: 0.9rem;
+  padding-left: 1.5rem;
+}

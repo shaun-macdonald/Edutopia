@@ -30,6 +30,7 @@
     background-color: rgba(0, 0, 0, 0.3);
     max-width: 80%;
     margin: 0 auto;
+    color: white !important; /* Force white color */
   }
   
   /* Options area */
@@ -85,12 +86,14 @@
     font-weight: bold;
     margin-right: 15px;
     flex-shrink: 0;
+    color: white !important;
   }
   
   .option-text {
     flex: 1;
     text-align: left;
     font-size: 1.1rem;
+    color: white !important;
   }
   
   /* Submit button */

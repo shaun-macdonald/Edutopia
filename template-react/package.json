@@ -21,11 +21,13 @@
         "vite"
     ],
     "scripts": {
-        "dev": "node dev & vite --config vite/config.dev.mjs",
-        "build": "vite build --config vite/config.prod.mjs",
-        "dev-nolog": "vite --config vite/config.dev.mjs",
-        "build-nolog": "vite build --config vite/config.prod.mjs",
-        "start": "vite"
+        "update-questions": "node convert_questions.js",
+        "dev": "npm run update-questions && node dev & vite --config vite/config.dev.mjs",
+        "build": "npm run update-questions && vite build --config vite/config.prod.mjs",
+        "dev-nolog": "npm run update-questions && vite --config vite/config.dev.mjs",
+        "build-nolog": "npm run update-questions && vite build --config vite/config.prod.mjs",
+        "start": "npm run update-questions && vite"
+
 
     },
     "dependencies": {

@@ -26,27 +26,42 @@ const QuizPage = ({ updateTech }) => {
     };
 
     // Check the answer
-    const checkAnswer = () => {
-        if (!currentQuestion || !selectedOption) return;
+    // In QuizPage.jsx - modify the checkAnswer function
+const checkAnswer = () => {
+    if (!currentQuestion || !selectedOption) return;
 
-        setShowFeedback(true);
+    setShowFeedback(true);
 
-        if (selectedOption === currentQuestion.correctAnswer) {
-            setFeedback("Correct! You earned 5 Tech points.");
-            updateTech(5);
-        } else {
-            setFeedback(`Incorrect. The correct answer is: ${currentQuestion.correctAnswer}`);
+    const params = new URLSearchParams(window.location.search);
+    const gameMode = params.get("mode") || "standard";
+    
+    if (selectedOption === currentQuestion.correctAnswer) {
+        // Give more resources for correct answers in quiz mode
+        let techPoints = 5;
+        let otherResources = 0;
+        
+        if (gameMode === "quiz") {
+            // In quiz mode, also give other resources
+            otherResources = 5;
         }
+        
+        setFeedback(`Correct! You earned ${techPoints} Tech points${otherResources ? ` and ${otherResources} of each resource` : ''}.`);
+        
+        // Update resources based on game mode
+        updateTech(techPoints, otherResources);
+    } else {
+        setFeedback(`Incorrect. The correct answer is: ${currentQuestion.correctAnswer}`);
+    }
 
-        // Move to next question after delay
-        setTimeout(() => {
-            const newQuestion = questions[Math.floor(Math.random() * questions.length)];
-            setCurrentQuestion(newQuestion);
-            setSelectedOption("");
-            setFeedback("");
-            setShowFeedback(false);
-        }, 2000);
-    };
+    // Move to next question after delay
+    setTimeout(() => {
+        const newQuestion = questions[Math.floor(Math.random() * questions.length)];
+        setCurrentQuestion(newQuestion);
+        setSelectedOption("");
+        setFeedback("");
+        setShowFeedback(false);
+    }, 2000);
+};
 
     if (!currentQuestion) {
         return <div className="quiz-loading">Loading questions...</div>;
