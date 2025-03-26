@@ -14,9 +14,24 @@ try {
     const csvFilePath = path.join(__dirname, '../public/data/questionSheet.csv');
     const jsonFilePath = path.join(__dirname, '../public/data/questions.json');
 
+    console.log(`Reading CSV from: ${csvFilePath}`);
+    console.log(`Will write JSON to: ${jsonFilePath}`);
+
     // Check if CSV file exists
     if (!fs.existsSync(csvFilePath)) {
         throw new Error(`❌ ERROR: CSV file not found at ${csvFilePath}`);
+    }
+
+    // Check if the destination JSON file exists
+    if (fs.existsSync(jsonFilePath)) {
+        console.log(`Existing file found at ${jsonFilePath}, attempting to delete...`);
+        try {
+            fs.unlinkSync(jsonFilePath);
+            console.log("Successfully deleted existing file.");
+        } catch (deleteError) {
+            console.error(`Failed to delete existing file: ${deleteError.message}`);
+            console.log("Will try to overwrite it instead.");
+        }
     }
 
     // Load the CSV file
@@ -47,16 +62,20 @@ try {
             difficulty: row.Difficulty,
             question: row.Question,
             options,
-            correctAnswer: row[["Option A", "Option B", "Option C", "Option D"][row["Correct Answer"].charCodeAt(0) - 65]] // Converts A/B/C/D to the actual text answer
+            correctAnswer: row["Correct Answer"]
         };
     });
 
-    // Save formatted questions as JSON
-    fs.writeFileSync(jsonFilePath, JSON.stringify(formattedQuestions, null, 2));
+    // Save formatted questions as JSON, using a temporary file first
+    const tempFilePath = jsonFilePath + '.temp';
+    fs.writeFileSync(tempFilePath, JSON.stringify(formattedQuestions, null, 2));
+    
+    // Then rename the temp file to the final filename
+    fs.renameSync(tempFilePath, jsonFilePath);
 
     console.log(`✅ Successfully updated ${formattedQuestions.length} questions.`);
 } catch (error) {
-    console.error(error.message);
+    console.error(error);
 }
 
 console.log("✅ Script finished running!");

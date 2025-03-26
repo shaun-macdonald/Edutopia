@@ -3,195 +3,260 @@
     "id": 1,
     "type": "Programming",
     "difficulty": "easy",
-    "question": "What symbol is used for comments in JavaScript?",
+    "question": "What symbol is used for comments in Python?",
     "options": [
-      "//",
       "#",
+      "//",
       "/* */",
       "--"
     ],
-    "correctAnswer": "//"
+    "correctAnswer": "#"
   },
   {
     "id": 2,
     "type": "Programming",
     "difficulty": "easy",
-    "question": "Which of the following is NOT a JavaScript data type?",
+    "question": "How do you print \"Hello World\" in Python?",
     "options": [
-      "string",
-      "boolean",
-      "integer",
-      "object"
+      "print(\"Hello World\")",
+      "echo(\"Hello World\")",
+      "console.log(\"Hello World\")",
+      "System.out.println(\"Hello World\")"
     ],
-    "correctAnswer": "integer"
+    "correctAnswer": "print(\"Hello World\")"
   },
   {
     "id": 3,
     "type": "Programming",
     "difficulty": "easy",
-    "question": "What does HTML stand for?",
+    "question": "Which of these is a correct way to define a function in Python?",
     "options": [
-      "Hyper Text Markup Language",
-      "High Tech Modern Language",
-      "Hyperlink Text Management Language",
-      "Home Tool Markup Language"
+      "def my_function():",
+      "function my_function():",
+      "func my_function():",
+      "define my_function():"
     ],
-    "correctAnswer": "Hyper Text Markup Language"
+    "correctAnswer": "def my_function():"
   },
   {
     "id": 4,
     "type": "Programming",
-    "difficulty": "medium",
-    "question": "What will `console.log(2 + \"2\")` output in JavaScript?",
+    "difficulty": "easy",
+    "question": "What data type is created with square brackets in Python?",
     "options": [
-      4,
-      22,
-      22,
-      "Error"
+      "List",
+      "Tuple",
+      "Dictionary",
+      "Set"
     ],
-    "correctAnswer": "\"22\""
+    "correctAnswer": "List"
   },
   {
     "id": 5,
     "type": "Programming",
     "difficulty": "medium",
-    "question": "Which method adds an element to the end of an array in JavaScript?",
+    "question": "What does the 'len()' function do in Python?",
     "options": [
-      "push()",
-      "pop()",
-      "shift()",
-      "unshift()"
+      "Returns the length of an object",
+      "Creates a new list",
+      "Calculates logarithm",
+      "Prints an object"
     ],
-    "correctAnswer": "push()"
+    "correctAnswer": "Returns the length of an object"
   },
   {
     "id": 6,
     "type": "Programming",
     "difficulty": "medium",
-    "question": "What is the correct way to create a function in JavaScript?",
+    "question": "How do you start an if statement in Python?",
     "options": [
-      "function myFunction()",
-      "function = myFunction()",
-      "function:myFunction()",
-      "def myFunction()"
+      "if x ==",
+      "if (x)",
+      "if x:",
+      "when x:"
     ],
-    "correctAnswer": "function myFunction()"
+    "correctAnswer": "if x:"
   },
   {
     "id": 7,
     "type": "Programming",
-    "difficulty": "hard",
-    "question": "What is the output of `console.log(typeof NaN)` in JavaScript?",
+    "difficulty": "medium",
+    "question": "Which method is used to add an element to the end of a list?",
     "options": [
-      "number",
-      "NaN",
-      "undefined",
-      "null"
+      "append()",
+      "add()",
+      "insert()",
+      "extend()"
     ],
-    "correctAnswer": "number"
+    "correctAnswer": "append()"
   },
   {
     "id": 8,
     "type": "Programming",
     "difficulty": "hard",
-    "question": "Which array method creates a new array with the results of calling a function on every element?",
+    "question": "What does the '*args' syntax do in a function definition?",
     "options": [
-      "map()",
-      "filter()",
-      "reduce()",
-      "forEach()"
+      "Allows variable number of positional arguments",
+      "Creates a pointer",
+      "Multiplies arguments",
+      "Creates an array"
     ],
-    "correctAnswer": "map()"
+    "correctAnswer": "Allows variable number of positional arguments"
   },
   {
     "id": 9,
     "type": "Programming",
-    "difficulty": "easy",
-    "question": "Which CSS property is used to change the text color?",
+    "difficulty": "hard",
+    "question": "What is a decorator in Python?",
     "options": [
-      "color",
-      "text-color",
-      "font-color",
-      "text-style"
+      "A function that modifies another function",
+      "A design pattern",
+      "A type of class",
+      "A mathematical operation"
     ],
-    "correctAnswer": "color"
+    "correctAnswer": "A function that modifies another function"
   },
   {
     "id": 10,
     "type": "Programming",
     "difficulty": "easy",
-    "question": "In React what hook is used to perform side effects?",
+    "question": "How do you create a tuple in Python?",
     "options": [
-      "useEffect",
-      "useState",
-      "useContext",
-      "useReducer"
+      "my_tuple = (1",
+      2,
+      "3)",
+      "my_tuple = [1"
     ],
-    "correctAnswer": "useEffect"
+    "correctAnswer": 2
   },
   {
     "id": 11,
     "type": "Programming",
     "difficulty": "medium",
-    "question": "What does the === operator do in JavaScript?",
+    "question": "What does the 'global' keyword do?",
     "options": [
-      "Checks for equality with type conversion",
-      "Assigns a value",
-      "Checks for equality without type conversion",
-      "Checks if variables are defined"
+      "Declares a global variable",
+      "Creates a new scope",
+      "Imports a module",
+      "Defines a constant"
     ],
-    "correctAnswer": "Checks for equality without type conversion"
+    "correctAnswer": "Declares a global variable"
   },
   {
     "id": 12,
     "type": "Programming",
     "difficulty": "medium",
-    "question": "What is the correct way to import a component in React?",
+    "question": "How do you import a specific function from a module?",
     "options": [
-      "import Component from './Component'",
-      "require('./Component')",
-      "include Component from './Component'",
-      "import './Component'"
+      "from module import function",
+      "import function from module",
+      "module.import(function)",
+      "use module.function"
     ],
-    "correctAnswer": "import Component from './Component'"
+    "correctAnswer": "from module import function"
   },
   {
     "id": 13,
     "type": "Programming",
     "difficulty": "hard",
-    "question": "What is a closure in JavaScript?",
+    "question": "What is list comprehension in Python?",
     "options": [
-      "A way to protect variables",
-      "A function with access to its outer function's scope",
-      "A method to close connections",
-      "A debugging technique"
+      "A way to create lists in a concise way",
+      "A method to compress lists",
+      "A function to sort lists",
+      "A way to delete list items"
     ],
-    "correctAnswer": "A function with access to its outer function's scope"
+    "correctAnswer": "A way to create lists in a concise way"
   },
   {
     "id": 14,
     "type": "Programming",
-    "difficulty": "hard",
-    "question": "Which of these is NOT a valid way to create an object in JavaScript?",
+    "difficulty": "easy",
+    "question": "Which comparison returns True?",
     "options": [
-      "const obj = {}",
-      "const obj = new Object()",
-      "const obj = Object.create(null)",
-      "const obj = Object()"
+      36651,
+      "5 is 5.0",
+      36651,
+      "5 equals 5.0"
     ],
-    "correctAnswer": "const obj = Object()"
+    "correctAnswer": 36651
   },
   {
     "id": 15,
     "type": "Programming",
     "difficulty": "medium",
-    "question": "What does CSS stand for?",
+    "question": "What does the 'yield' keyword do?",
     "options": [
-      "Cascading Style Sheets",
-      "Computer Style Sheets",
-      "Creative Style System",
-      "Colorful Style Sheets"
+      "Creates a generator function",
+      "Stops a function",
+      "Returns a value",
+      "Creates a list"
     ],
-    "correctAnswer": "Cascading Style Sheets"
+    "correctAnswer": "Creates a generator function"
+  },
+  {
+    "id": 16,
+    "type": "Programming",
+    "difficulty": "hard",
+    "question": "What is the purpose of '__init__' method in a class?",
+    "options": [
+      "Constructor method",
+      "Destructor method",
+      "Static method",
+      "Private method"
+    ],
+    "correctAnswer": "Constructor method"
+  },
+  {
+    "id": 17,
+    "type": "Programming",
+    "difficulty": "medium",
+    "question": "How do you handle exceptions in Python?",
+    "options": [
+      "try/except",
+      "try/catch",
+      "if/else",
+      "switch/case"
+    ],
+    "correctAnswer": "try/except"
+  },
+  {
+    "id": 18,
+    "type": "Programming",
+    "difficulty": "easy",
+    "question": "What is the correct way to create a dictionary?",
+    "options": [
+      "my_dict = {}",
+      "my_dict = []",
+      "my_dict = ()",
+      "my_dict = set()"
+    ],
+    "correctAnswer": "my_dict = {}"
+  },
+  {
+    "id": 19,
+    "type": "Programming",
+    "difficulty": "hard",
+    "question": "What does the 'super()' function do?",
+    "options": [
+      "Calls the parent class method",
+      "Creates a new class",
+      "Defines a static method",
+      "Overrides a method"
+    ],
+    "correctAnswer": "Calls the parent class method"
+  },
+  {
+    "id": 20,
+    "type": "Programming",
+    "difficulty": "medium",
+    "question": "Which of these is NOT a Python data type?",
+    "options": [
+      "boolean",
+      "int",
+      "float",
+      "number"
+    ],
+    "correctAnswer": "number"
   }
 ]

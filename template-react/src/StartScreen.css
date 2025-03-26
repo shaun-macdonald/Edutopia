@@ -168,3 +168,40 @@
   font-size: 0.9rem;
   padding-left: 1.5rem;
 }
+
+/* Add to StartScreen.css */
+.mode-selection {
+  margin: 20px 0;
+}
+
+.mode-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 15px 0;
+}
+
+.mode-button {
+  padding: 10px 15px;
+  background-color: #4a5568;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.mode-button:hover {
+  background-color: #2d3748;
+}
+
+.mode-button.selected {
+  background-color: #48bb78;
+  font-weight: bold;
+}
+
+.mode-description {
+  height: 50px;
+  margin: 15px 0;
+  font-style: italic;
+}

@@ -1,104 +1,70 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import "./StartScreen.css";
 
-const StartScreen = () => {
-  const [playerName, setPlayerName] = useState("");
-  const [gameMode, setGameMode] = useState("standard");
-  const navigate = useNavigate();
-  
-  const handleStartGame = () => {
-    // Clear localStorage to start fresh
-    localStorage.removeItem("gameState");
-    console.log("Starting new game - cleared saved state");
-    
-    // Force a complete reload before navigating to ensure clean state
-    // This is more reliable than just navigating
-    window.location.href = `/game?mode=${gameMode}&t=${Date.now()}`;
-    
-    // The navigate won't be reached due to the page reload
-    // navigate(`/game?mode=${gameMode}`);
-  };
-  
-  return (
-    <div className="start-screen">
-      <div className="start-content">
-        <h1 className="game-title">EDUTOPIA</h1>
-        
-        <p className="game-description">
-          Build your ideal society by expanding your territory, 
-          gathering resources, and testing your knowledge of 
-          AI, Cloud Computing, Data Science and Cyber Security.
-        </p>
-        
-        <div className="name-input">
-          <label htmlFor="player-name">Enter Your Name:</label>
-          <input 
-            type="text" 
-            id="player-name"
-            value={playerName}
-            onChange={(e) => setPlayerName(e.target.value)}
-            placeholder="Player Name"
-          />
-        </div>
-        
-        <div className="game-mode-selection">
-          <label>Select Game Mode:</label>
-          <div className="mode-options">
-            <label className="mode-option">
-              <input 
-                type="radio" 
-                name="gameMode" 
-                value="standard" 
-                checked={gameMode === "standard"}
-                onChange={() => setGameMode("standard")}
-              />
-              <span>Standard Mode</span>
-              <p className="mode-description">Resources from tiles and quizzes</p>
-            </label>
+function StartScreen() {
+    const [selectedMode, setSelectedMode] = useState("standard");
+
+    const handleNewGame = () => {
+        // Clear localStorage for a fresh start
+        localStorage.removeItem("gameState");
+        console.log("Local storage cleared for new game");
+    };
+
+    return (
+        <div className="start-screen">
+            <h1>Edutopia</h1>
+            <h2>Learn & Build</h2>
             
-            <label className="mode-option">
-              <input 
-                type="radio" 
-                name="gameMode" 
-                value="quiz" 
-                checked={gameMode === "quiz"}
-                onChange={() => setGameMode("quiz")}
-              />
-              <span>Quiz Mode</span>
-              <p className="mode-description">Resources only from quiz answers</p>
-            </label>
+            <div className="mode-selection">
+                <h3>Select Game Mode:</h3>
+                <div className="mode-buttons">
+                    <button 
+                        className={`mode-button ${selectedMode === 'standard' ? 'selected' : ''}`}
+                        onClick={() => setSelectedMode('standard')}
+                    >
+                        Standard Mode
+                    </button>
+                    <button 
+                        className={`mode-button ${selectedMode === 'challenging' ? 'selected' : ''}`}
+                        onClick={() => setSelectedMode('challenging')}
+                    >
+                        Challenging Mode
+                    </button>
+                    <button 
+                        className={`mode-button ${selectedMode === 'quiz' ? 'selected' : ''}`}
+                        onClick={() => setSelectedMode('quiz')}
+                    >
+                        Quiz Mode
+                    </button>
+                </div>
+            </div>
             
-            <label className="mode-option">
-              <input 
-                type="radio" 
-                name="gameMode" 
-                value="reduced" 
-                checked={gameMode === "reduced"}
-                onChange={() => setGameMode("reduced")}
-              />
-              <span>Challenge Mode</span>
-              <p className="mode-description">Reduced resources from tiles</p>
-            </label>
-          </div>
+            <div className="mode-description">
+                {selectedMode === 'standard' && (
+                    <p>Standard Mode: Start with easy questions and gradually progress to harder ones.</p>
+                )}
+                {selectedMode === 'challenging' && (
+                    <p>Challenging Mode: Start with medium difficulty questions and advance faster.</p>
+                )}
+                {selectedMode === 'quiz' && (
+                    <p>Quiz Mode: Focus only on questions without gameplay.</p>
+                )}
+            </div>
+            
+            <div className="start-buttons">
+                <Link to={selectedMode === 'quiz' ? `/quiz?mode=${selectedMode}` : `/game?mode=${selectedMode}`} onClick={handleNewGame}>
+                    <button className="new-game-button">New Game</button>
+                </Link>
+                <Link to={selectedMode === 'quiz' ? `/quiz` : `/game`}>
+                    <button className="continue-button">Continue</button>
+                </Link>
+                <Link to="/instructions">
+                    <button className="instructions-button">Instructions</button>
+                </Link>
+            </div>
         </div>
-        
-        <div className="start-buttons">
-          <button 
-            className="start-button" 
-            onClick={handleStartGame}
-          >
-            Start Game
-          </button>
-          
-          <Link to="/instructions">
-            <button className="instructions-button">
-              How to Play
-            </button>
-          </Link>
-        </div>
-      </div>
-    </div>
-  );
-};
+    );
+}
 
 export default StartScreen;

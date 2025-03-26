@@ -161,7 +161,9 @@ function App() {
             </div>
             <nav className="game-nav">
                 <Link to="/"><button className="menu-button">Main Menu</button></Link>
-                <Link to="/quiz"><button className="quiz-button">🧠 Take Quiz</button></Link>
+                <Link to={`/quiz?mode=${new URLSearchParams(window.location.search).get('mode') || 'standard'}`}>
+                    <button className="quiz-button">🧠 Take Quiz</button>
+                </Link>
                 <button className="upgrade-button" onClick={handleUpgradeStorage}>Upgrade Storage (1 Tech)</button>
                 <button className="end-turn-button" onClick={handleEndTurn}>End Turn</button>
             </nav>
@@ -179,11 +181,15 @@ function App() {
                     {/* Instructions Page */}
                     <Route path="/instructions" element={<InstructionsPage />} />
                     
-                    {/* Game Screen (was previous home route) */}
+                    {/* Game Screen with mode param */}
                     <Route path="/game" element={<GameScreen />} />
                     
-                    {/* Quiz Page */}
-                    <Route path="/quiz" element={<QuizPage updateTech={updateTech} />} />
+                    {/* Quiz Page - pass the game mode from URL to the component */}
+                    <Route path="/quiz" element={
+                        <QuizPage 
+                            updateTech={updateTech}
+                        />
+                    } />
                     
                     {/* For backward compatibility, redirect /start to / */}
                     <Route path="/start" element={<Navigate to="/" replace />} />
