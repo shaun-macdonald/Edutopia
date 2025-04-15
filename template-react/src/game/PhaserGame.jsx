@@ -1,73 +1,98 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import Phaser from "phaser";
 import { Game } from "./scenes/Game.js";
 
-// Global variable to track if we've already created a game instance
+
 let gameInstance = null;
 
 export const PhaserGame = () => {
     const gameContainer = useRef(null);
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
-    const gameMode = queryParams.get("mode") || "standard"; // Default mode
+    const gameMode = queryParams.get("mode") || "standard"; 
+    const [isInitialized, setIsInitialized] = useState(false);  
 
-    console.log("📌 Selected Game Mode:", gameMode); // Debugging
+    console.log("📌 Selected Game Mode:", gameMode);
 
     useEffect(() => {
         if (!gameContainer.current) return;
 
-        // If no game instance exists, create one
+        // Game instance creation and updating
         if (!gameInstance) {
             console.log("Creating new Phaser instance");
 
-            gameInstance = new Phaser.Game({
+            const config = {
                 type: Phaser.AUTO,
                 width: 1100,
                 height: 500,
                 parent: gameContainer.current,
                 scene: [Game],
                 physics: { default: "arcade" },
-                data: { gameMode: gameMode } // Pass gameMode as data
-            });
+                data: { gameMode: gameMode } 
+            };
 
+            gameInstance = new Phaser.Game(config);
             window.phaserGame = gameInstance;
             console.log("✅ Phaser game initialized!");
+            setIsInitialized(true);
         } else {
             console.log("Reusing existing Phaser instance");
 
-            // Reparent the canvas to our new container
+            
             if (gameInstance.canvas && gameInstance.canvas.parentNode !== gameContainer.current) {
                 gameInstance.canvas.parentNode.removeChild(gameInstance.canvas);
                 gameContainer.current.appendChild(gameInstance.canvas);
             }
             
-            // Update the game mode in the existing instance
+            
             if (gameInstance.scene && gameInstance.scene.scenes[0]) {
                 const gameScene = gameInstance.scene.scenes[0];
-                if (gameScene) {
+                if (gameScene && gameScene.gameMode !== gameMode) {
                     gameScene.gameMode = gameMode;
                     console.log("Updated game mode in existing scene:", gameMode);
+                    
+                    
+                    if (gameScene.scene.isActive() && !gameScene.scene.isPaused()) {
+                        gameScene.scene.restart({ gameMode });
+                        console.log("Restarted scene with new game mode");
+                    }
                 }
             }
         }
 
-        return () => {
-            console.log("Component unmounting, but preserving game instance");
+        
+        const handleResize = () => {
+            if (gameInstance && gameInstance.scale) {
+                gameInstance.scale.resize(
+                    Math.min(1100, window.innerWidth - 20),
+                    500
+                );
+            }
+        };
 
-            // Save game state before unmounting
+        window.addEventListener('resize', handleResize);
+        
+        return () => {
+            console.log("Component unmounting, preserving game instance");
+            window.removeEventListener('resize', handleResize);
+
+           
             if (gameInstance && gameInstance.scene && gameInstance.scene.scenes[0]) {
                 const gameScene = gameInstance.scene.scenes[0];
-                if (gameScene) {
-                    const savedState = {
-                        ownedTiles: gameScene.ownedTiles || [],
-                        resources: gameScene.resources || { food: 0, wood: 0, metal: 0, tech: 0 }
-                    };
-                    localStorage.setItem("gameState", JSON.stringify(savedState));
+                if (gameScene && gameScene.saveGameState) {
+                    gameScene.saveGameState();
+                    console.log("Game state saved on unmount");
                 }
             }
         };
     }, [gameMode]);
 
-    return <div ref={gameContainer} id="game-container" />;
+    return (
+        <div ref={gameContainer} id="game-container" className="phaser-container">
+            {!isInitialized && <div className="loading-indicator">Loading game...</div>}
+        </div>
+    );
 };
+
+export default PhaserGame;

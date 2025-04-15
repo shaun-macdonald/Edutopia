@@ -5,9 +5,9 @@
     "difficulty": "easy",
     "question": "What symbol is used for comments in Python?",
     "options": [
-      "#",
-      "//",
       "/* */",
+      "//",
+      "#",
       "--"
     ],
     "correctAnswer": "#"
@@ -44,10 +44,10 @@
     "difficulty": "easy",
     "question": "What data type is created with square brackets in Python?",
     "options": [
-      "List",
+      "Set",
       "Tuple",
       "Dictionary",
-      "Set"
+      "List"
     ],
     "correctAnswer": "List"
   },
@@ -83,9 +83,9 @@
     "difficulty": "medium",
     "question": "Which method is used to add an element to the end of a list?",
     "options": [
-      "append()",
-      "add()",
       "insert()",
+      "add()",
+      "append()",
       "extend()"
     ],
     "correctAnswer": "append()"
@@ -122,12 +122,12 @@
     "difficulty": "easy",
     "question": "How do you create a tuple in Python?",
     "options": [
-      "my_tuple = (1",
-      2,
-      "3)",
-      "my_tuple = [1"
+      "my_tuple = [1|2|3]",
+      "my_tuple = (1|2|3)",
+      "my_tuple = {1|2|3}",
+      "my_tuple = 1|2|3"
     ],
-    "correctAnswer": 2
+    "correctAnswer": "my_tuple = (1|2|3)"
   },
   {
     "id": 11,
@@ -174,12 +174,12 @@
     "difficulty": "easy",
     "question": "Which comparison returns True?",
     "options": [
-      36651,
       "5 is 5.0",
-      36651,
-      "5 equals 5.0"
+      "5 equals equals 5.0",
+      "5 equals 5.0",
+      "5 not equals 5.0"
     ],
-    "correctAnswer": 36651
+    "correctAnswer": "5 equals equals 5.0"
   },
   {
     "id": 15,
@@ -187,8 +187,8 @@
     "difficulty": "medium",
     "question": "What does the 'yield' keyword do?",
     "options": [
-      "Creates a generator function",
       "Stops a function",
+      "Creates a generator function",
       "Returns a value",
       "Creates a list"
     ],
@@ -213,10 +213,10 @@
     "difficulty": "medium",
     "question": "How do you handle exceptions in Python?",
     "options": [
-      "try/except",
+      "switch/case",
       "try/catch",
       "if/else",
-      "switch/case"
+      "try/except"
     ],
     "correctAnswer": "try/except"
   },
@@ -258,5 +258,265 @@
       "number"
     ],
     "correctAnswer": "number"
+  },
+  {
+    "id": 21,
+    "type": "Programming",
+    "difficulty": "easy",
+    "question": "What is the correct way to create an empty list?",
+    "options": [
+      "[]",
+      "{}",
+      "()",
+      "list"
+    ],
+    "correctAnswer": "[]"
+  },
+  {
+    "id": 22,
+    "type": "Programming",
+    "difficulty": "easy",
+    "question": "Which operator is used for exponentiation?",
+    "options": [
+      "//",
+      "**",
+      "^",
+      "%%"
+    ],
+    "correctAnswer": "**"
+  },
+  {
+    "id": 23,
+    "type": "Programming",
+    "difficulty": "easy",
+    "question": "How do you add multi-line comments?",
+    "options": [
+      "// Comments //",
+      "\"\"\" Comments \"\"\"",
+      "<!-- Comments -->",
+      "-- Comments --"
+    ],
+    "correctAnswer": "\"\"\" Comments \"\"\""
+  },
+  {
+    "id": 24,
+    "type": "Programming",
+    "difficulty": "easy",
+    "question": "What will print(type(42)) return?",
+    "options": [
+      "<class 'number'>",
+      "<class 'int'>",
+      "<class 'float'>",
+      "<class 'integer'>"
+    ],
+    "correctAnswer": "<class 'int'>"
+  },
+  {
+    "id": 25,
+    "type": "Programming",
+    "difficulty": "easy",
+    "question": "How do you check a string's length?",
+    "options": [
+      "size(text)",
+      "text.length()",
+      "len(text)",
+      "text.size()"
+    ],
+    "correctAnswer": "len(text)"
+  },
+  {
+    "id": 26,
+    "type": "Programming",
+    "difficulty": "easy",
+    "question": "How do you convert a string to lowercase?",
+    "options": [
+      "lowercase(string)",
+      "string.lower()",
+      "string.to_lower()",
+      "string.downcase()"
+    ],
+    "correctAnswer": "string.lower()"
+  },
+  {
+    "id": 27,
+    "type": "Programming",
+    "difficulty": "easy",
+    "question": "What is the output of print(\"Hello\" + \" \" + \"World\")?",
+    "options": [
+      "\"Hello World\"",
+      "Hello World",
+      "Hello + World",
+      "\"Hello\" \"World\""
+    ],
+    "correctAnswer": "Hello World"
+  },
+  {
+    "id": 28,
+    "type": "Programming",
+    "difficulty": "medium",
+    "question": "What does string.split() do?",
+    "options": [
+      "Removes whitespace",
+      "Divides into parts",
+      "Separates characters",
+      "Checks substrings"
+    ],
+    "correctAnswer": "Divides into parts"
+  },
+  {
+    "id": 29,
+    "type": "Programming",
+    "difficulty": "medium",
+    "question": "How do you convert a string to an integer?",
+    "options": [
+      "to_int(string)",
+      "Integer.parse(string)",
+      "string.toInt()",
+      "int(string)"
+    ],
+    "correctAnswer": "int(string)"
+  },
+  {
+    "id": 30,
+    "type": "Programming",
+    "difficulty": "medium",
+    "question": "What are list comprehensions for?",
+    "options": [
+      "Sorting elements",
+      "Removing elements",
+      "Creating new lists",
+      "Joining lists"
+    ],
+    "correctAnswer": "Creating new lists"
+  },
+  {
+    "id": 31,
+    "type": "Programming",
+    "difficulty": "medium",
+    "question": "How do you check if a key exists in a dictionary?",
+    "options": [
+      "dict.contains(key)",
+      "key in dict",
+      "dict.has_key(key)",
+      "dict.exists(key)"
+    ],
+    "correctAnswer": "key in dict"
+  },
+  {
+    "id": 32,
+    "type": "Programming",
+    "difficulty": "medium",
+    "question": "What does 'self' refer to in a class method?",
+    "options": [
+      "The class",
+      "The parent class",
+      "The instance",
+      "A keyword"
+    ],
+    "correctAnswer": "The instance"
+  },
+  {
+    "id": 33,
+    "type": "Programming",
+    "difficulty": "medium",
+    "question": "What does string.strip() do?",
+    "options": [
+      "Removes all spaces",
+      "Removes outer spaces",
+      "Splits the string",
+      "Removes characters"
+    ],
+    "correctAnswer": "Removes outer spaces"
+  },
+  {
+    "id": 34,
+    "type": "Programming",
+    "difficulty": "medium",
+    "question": "How do you open a file for reading?",
+    "options": [
+      "read(\"file.txt\")",
+      "File.open(\"file.txt\")",
+      "open(\"file.txt\"| \"w\")",
+      "open(\"file.txt\"| \"r\")"
+    ],
+    "correctAnswer": "open(\"file.txt\"| \"r\")"
+  },
+  {
+    "id": 35,
+    "type": "Programming",
+    "difficulty": "medium",
+    "question": "How do you create a default parameter?",
+    "options": [
+      "def func(default: param)",
+      "def func(param = value)",
+      "def func(param: value)",
+      "def func(param <- value)"
+    ],
+    "correctAnswer": "def func(param = value)"
+  },
+  {
+    "id": 36,
+    "type": "Programming",
+    "difficulty": "hard",
+    "question": "What is a generator function?",
+    "options": [
+      "Creates random numbers",
+      "Creates new objects",
+      "Returns an iterator",
+      "Generates documentation"
+    ],
+    "correctAnswer": "Returns an iterator"
+  },
+  {
+    "id": 37,
+    "type": "Programming",
+    "difficulty": "hard",
+    "question": "What does @property do?",
+    "options": [
+      "Makes method private",
+      "Method acts as attribute",
+      "Creates static method",
+      "Makes attribute immutable"
+    ],
+    "correctAnswer": "Method acts as attribute"
+  },
+  {
+    "id": 38,
+    "type": "Programming",
+    "difficulty": "hard",
+    "question": "What are *args and **kwargs used for?",
+    "options": [
+      "List unpacking",
+      "Required arguments",
+      "Importing variables",
+      "Variable arguments"
+    ],
+    "correctAnswer": "Variable arguments"
+  },
+  {
+    "id": 39,
+    "type": "Programming",
+    "difficulty": "hard",
+    "question": "What is a context manager?",
+    "options": [
+      "Manages memory",
+      "Used with 'with'",
+      "Manages processes",
+      "Controls execution"
+    ],
+    "correctAnswer": "Used with 'with'"
+  },
+  {
+    "id": 40,
+    "type": "Programming",
+    "difficulty": "hard",
+    "question": "How does Python's garbage collection work?",
+    "options": [
+      "Manual management",
+      "Reference counting",
+      "Scheduled cleanup",
+      "Delete keyword"
+    ],
+    "correctAnswer": "Reference counting"
   }
 ]

@@ -4,25 +4,45 @@ import { PhaserGame } from "./game/PhaserGame.jsx";
 import QuizPage from "./QuizPage.jsx";
 import StartScreen from "./StartScreen.jsx";
 import InstructionsPage from "./InstructionsPage.jsx";
+import SessionCompleteScreen from "./SessionCompleteScreen.jsx";
 import "./StartScreen.css";
 import './GameStyle.css';
+import { 
+    UserNameEntry, 
+    ExportDataButton, 
+    TimerDisplay, 
+    DataManager, 
+    ResearchAdmin,
+    initGlobalTimer, 
+    stopGlobalTimer  
+  } from './ResearchDataFeatures.jsx';
+
+  
 
 function App() {
     const [resources, setResources] = useState({ food: 0, wood: 0, metal: 0, tech: 0 });
+    const [tileCount, setTileCount] = useState(0);
+    
     
     // 🌟 Load saved resources when the component mounts
     useEffect(() => {
         const savedState = localStorage.getItem("gameState");
         if (savedState) {
             try {
-                const { resources } = JSON.parse(savedState);
+                const { resources, tileCount } = JSON.parse(savedState);
                 if (resources) {
                     setResources(resources);
+                }
+                if (tileCount !== undefined) {
+                    setTileCount(tileCount);
                 }
             } catch (e) {
                 console.error("Error parsing saved state:", e);
             }
         }
+
+        // Make DataManager available to Phaser
+        window.DataManager = DataManager;
 
         window.updateReactResources = (newResources) => {
             setResources({ ...newResources });
@@ -33,10 +53,31 @@ function App() {
             localStorage.setItem("gameState", JSON.stringify({ ...parsedState, resources: newResources }));
         };
 
-        return () => {
-            window.updateReactResources = null; // Clean up when component unmounts
+        // Add handler for tile count updates
+        window.updateTileCount = (count) => {
+            setTileCount(count);
+            console.log("Updated tile count in React:", count);
+            
+            // Save tile count to game state
+            if (window.DataManager) {
+                window.DataManager.saveTileCount(count);
+            }
         };
-    }, []);
+
+        return () => {
+            window.updateReactResources = null;
+            window.DataManager = null;
+            window.updateTileCount = null;
+        };
+        if (localStorage.getItem("researchMode") === "true") {
+            initGlobalTimer();
+            console.log("Global timer initialized");
+          }
+          
+          return () => {
+            stopGlobalTimer();
+          };
+        }, []);
 
     const updateTech = (points, otherResources = 0) => {
         setResources(prevResources => {
@@ -139,37 +180,48 @@ function App() {
     };
 
     // This component renders the game interface with resources and navigation
-    const GameScreen = () => (
-        <>
-            <div className="resource-bar">
-                <span className={resources.food >= (resources.caps?.food || 50) ? 'resource-at-cap' : 
-                                resources.food >= (resources.caps?.food || 50) * 0.8 ? 'resource-near-cap' : ''}>
-                    🍞 Food: {resources.food}/{resources.caps?.food || 50}
-                </span>
-                
-                <span className={resources.wood >= (resources.caps?.wood || 50) ? 'resource-at-cap' : 
-                                resources.wood >= (resources.caps?.wood || 50) * 0.8 ? 'resource-near-cap' : ''}>
-                    🌲 Wood: {resources.wood}/{resources.caps?.wood || 50}
-                </span>
-                
-                <span className={resources.metal >= (resources.caps?.metal || 50) ? 'resource-at-cap' : 
-                                resources.metal >= (resources.caps?.metal || 50) * 0.8 ? 'resource-near-cap' : ''}>
-                    🏗 Metal: {resources.metal}/{resources.caps?.metal || 50}
-                </span>
-                
-                <span>🧠 Tech: {resources.tech}</span>
-            </div>
-            <nav className="game-nav">
-                <Link to="/"><button className="menu-button">Main Menu</button></Link>
-                <Link to={`/quiz?mode=${new URLSearchParams(window.location.search).get('mode') || 'standard'}`}>
-                    <button className="quiz-button">🧠 Take Quiz</button>
-                </Link>
-                <button className="upgrade-button" onClick={handleUpgradeStorage}>Upgrade Storage (1 Tech)</button>
-                <button className="end-turn-button" onClick={handleEndTurn}>End Turn</button>
-            </nav>
-            <PhaserGame />
-        </>
+// This component renders the game interface with resources and navigation
+const GameScreen = () => {
+    // Check if research mode is active
+    const isResearchMode = localStorage.getItem("researchMode") === "true";
+    
+    return (
+      <>
+        {/* Show timer if in research mode */}
+        {isResearchMode && <TimerDisplay />}
+        
+        <div className="resource-bar">
+          <span className={resources.food >= (resources.caps?.food || 50) ? 'resource-at-cap' : 
+                          resources.food >= (resources.caps?.food || 50) * 0.8 ? 'resource-near-cap' : ''}>
+            🍞 Food: {resources.food}/{resources.caps?.food || 50}
+          </span>
+          
+          <span className={resources.wood >= (resources.caps?.wood || 50) ? 'resource-at-cap' : 
+                          resources.wood >= (resources.caps?.wood || 50) * 0.8 ? 'resource-near-cap' : ''}>
+            🌲 Wood: {resources.wood}/{resources.caps?.wood || 50}
+          </span>
+          
+          <span className={resources.metal >= (resources.caps?.metal || 50) ? 'resource-at-cap' : 
+                          resources.metal >= (resources.caps?.metal || 50) * 0.8 ? 'resource-near-cap' : ''}>
+            🏗 Metal: {resources.metal}/{resources.caps?.metal || 50}
+          </span>
+          
+          <span>🧠 Tech: {resources.tech}</span>
+          <span className="tile-count">🏆 Tiles: {tileCount}</span>
+        </div>
+        <nav className="game-nav">
+          <Link to="/"><button className="menu-button">Main Menu</button></Link>
+          <Link to={`/quiz?mode=${new URLSearchParams(window.location.search).get('mode') || 'standard'}`}>
+            <button className="quiz-button">🧠 Take Quiz</button>
+          </Link>
+          <button className="upgrade-button" onClick={handleUpgradeStorage}>Upgrade Storage (1 Tech)</button>
+          <button className="end-turn-button" onClick={handleEndTurn}>End Turn</button>
+          {isResearchMode && <ExportDataButton />}
+        </nav>
+        <PhaserGame />
+      </>
     );
+  };
 
     return (
         <Router>
@@ -178,17 +230,34 @@ function App() {
                     {/* Start Screen (new home route) */}
                     <Route path="/" element={<StartScreen />} />
                     
+                    {/* User Name Entry */}
+                    <Route path="/enter-name" element={<UserNameEntry />} />
+                    
                     {/* Instructions Page */}
                     <Route path="/instructions" element={<InstructionsPage />} />
                     
-                    {/* Game Screen with mode param */}
-                    <Route path="/game" element={<GameScreen />} />
+                    {/* Game Screen with mode param - check for username in research mode */}
+                    <Route path="/game" element={
+                        localStorage.getItem("researchMode") === "true" && !localStorage.getItem("userName") ? 
+                            <Navigate to={`/enter-name?destination=game&mode=${new URLSearchParams(window.location.search).get('mode') || 'standard'}`} replace /> : 
+                            <GameScreen />
+                    } />
                     
-                    {/* Quiz Page - pass the game mode from URL to the component */}
+                    {/* Quiz Page - check for username in research mode */}
                     <Route path="/quiz" element={
-                        <QuizPage 
-                            updateTech={updateTech}
-                        />
+                        localStorage.getItem("researchMode") === "true" && !localStorage.getItem("userName") ? 
+                            <Navigate to={`/enter-name?destination=quiz&mode=${new URLSearchParams(window.location.search).get('mode') || 'standard'}`} replace /> : 
+                            <QuizPage updateTech={updateTech} />
+                    } />
+                    
+                    {/* Session complete route */}
+                    <Route path="/session-complete" element={<SessionCompleteScreen />} />
+                    
+                    {/* Admin route */}
+                    <Route path="/admin" element={
+                        <div className="admin-route-wrapper">
+                            <ResearchAdmin />
+                        </div>
                     } />
                     
                     {/* For backward compatibility, redirect /start to / */}

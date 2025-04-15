@@ -1,0 +1,39 @@
+[debug] [2025-04-02T19:41:21.121Z] ----------------------------------------------------------------------
+[debug] [2025-04-02T19:41:21.124Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\shaun\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy
+[debug] [2025-04-02T19:41:21.124Z] CLI Version:   13.34.0
+[debug] [2025-04-02T19:41:21.124Z] Platform:      win32
+[debug] [2025-04-02T19:41:21.124Z] Node Version:  v22.12.0
+[debug] [2025-04-02T19:41:21.125Z] Time:          Wed Apr 02 2025 20:41:21 GMT+0100 (British Summer Time)
+[debug] [2025-04-02T19:41:21.125Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2025-04-02T19:41:21.129Z] >>> [apiv2][query] GET https://firebase-public.firebaseio.com/cli.json [none]
+[debug] [2025-04-02T19:41:21.341Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-04-02T19:41:21.341Z] > authorizing via signed-in user (shaunmacdonald20@googlemail.com)
+[debug] [2025-04-02T19:41:21.341Z] [iam] checking project edutopia-3dc0b for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2025-04-02T19:41:21.342Z] Checked if tokens are valid: false, expires at: 1743512569100
+[debug] [2025-04-02T19:41:21.342Z] Checked if tokens are valid: false, expires at: 1743512569100
+[debug] [2025-04-02T19:41:21.342Z] > refreshing access token with scopes: []
+[debug] [2025-04-02T19:41:21.342Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2025-04-02T19:41:21.342Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2025-04-02T19:41:21.756Z] <<< [apiv2][status] GET https://firebase-public.firebaseio.com/cli.json 200
+[debug] [2025-04-02T19:41:21.757Z] <<< [apiv2][body] GET https://firebase-public.firebaseio.com/cli.json {"cloudBuildErrorAfter":1594252800000,"cloudBuildWarnAfter":1590019200000,"defaultNode10After":1594252800000,"minVersion":"3.0.5","node8DeploysDisabledAfter":1613390400000,"node8RuntimeDisabledAfter":1615809600000,"node8WarnAfter":1600128000000}
+[debug] [2025-04-02T19:41:21.786Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 200
+[debug] [2025-04-02T19:41:21.786Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2025-04-02T19:41:21.792Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/edutopia-3dc0b:testIamPermissions [none]
+[debug] [2025-04-02T19:41:21.793Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/edutopia-3dc0b:testIamPermissions x-goog-quota-user=projects/edutopia-3dc0b
+[debug] [2025-04-02T19:41:21.793Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/edutopia-3dc0b:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2025-04-02T19:41:22.888Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/edutopia-3dc0b:testIamPermissions 200
+[debug] [2025-04-02T19:41:22.888Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/edutopia-3dc0b:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2025-04-02T19:41:22.889Z] Checked if tokens are valid: true, expires at: 1743626480786
+[debug] [2025-04-02T19:41:22.889Z] Checked if tokens are valid: true, expires at: 1743626480786
+[debug] [2025-04-02T19:41:22.889Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/edutopia-3dc0b [none]
+[debug] [2025-04-02T19:41:23.657Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/edutopia-3dc0b 200
+[debug] [2025-04-02T19:41:23.657Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/edutopia-3dc0b {"projectId":"edutopia-3dc0b","projectNumber":"925315313854","displayName":"Edutopia","name":"projects/edutopia-3dc0b","resources":{"hostingSite":"edutopia-3dc0b"},"state":"ACTIVE","etag":"1_091bc0e6-9668-4047-bcc1-293b74e4907a"}
+[info] 
+[info] === Deploying to 'edutopia-3dc0b'...
+[info] 
+[info] i  deploying hosting 
+[debug] [2025-04-02T19:41:23.678Z] Checked if tokens are valid: true, expires at: 1743626480786
+[debug] [2025-04-02T19:41:23.678Z] Checked if tokens are valid: true, expires at: 1743626480786
+[debug] [2025-04-02T19:41:23.678Z] >>> [apiv2][query] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/edutopia-3dc0b/versions [none]
+[debug] [2025-04-02T19:41:23.678Z] >>> [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/edutopia-3dc0b/versions {"status":"CREATED","labels":{"deployment-tool":"cli-firebase"}}

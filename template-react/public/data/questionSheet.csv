@@ -1,21 +1,41 @@
-Question ID,Type,Difficulty,Question,Option A,Option B,Option C,Option D,Correct Answer,,,,,,,,
-1,Programming,easy,What symbol is used for comments in Python?,#,//,/* */,--,#,,,,,,,,
-2,Programming,easy,"How do you print ""Hello World"" in Python?","print(""Hello World"")","echo(""Hello World"")","console.log(""Hello World"")","System.out.println(""Hello World"")","print(""Hello World"")",,,,,,,,
-3,Programming,easy,Which of these is a correct way to define a function in Python?,def my_function():,function my_function():,func my_function():,define my_function():,def my_function():,,,,,,,,
-4,Programming,easy,What data type is created with square brackets in Python?,List,Tuple,Dictionary,Set,List,,,,,,,,
-5,Programming,medium,What does the 'len()' function do in Python?,Returns the length of an object,Creates a new list,Calculates logarithm,Prints an object,Returns the length of an object,,,,,,,,
-6,Programming,medium,How do you start an if statement in Python?,if x ==,if (x),if x:,when x:,if x:,,,,,,,,
-7,Programming,medium,Which method is used to add an element to the end of a list?,append(),add(),insert(),extend(),append(),,,,,,,,
-8,Programming,hard,What does the '*args' syntax do in a function definition?,Allows variable number of positional arguments,Creates a pointer,Multiplies arguments,Creates an array,Allows variable number of positional arguments,,,,,,,,
-9,Programming,hard,What is a decorator in Python?,A function that modifies another function,A design pattern,A type of class,A mathematical operation,A function that modifies another function,,,,,,,,
-10,Programming,easy,How do you create a tuple in Python?,my_tuple = (1,2,3),my_tuple = [1,2,3],my_tuple = {1,2,3},"my_tuple = 1,2,3",my_tuple = (1,2,3)
-11,Programming,medium,What does the 'global' keyword do?,Declares a global variable,Creates a new scope,Imports a module,Defines a constant,Declares a global variable,,,,,,,,
-12,Programming,medium,How do you import a specific function from a module?,from module import function,import function from module,module.import(function),use module.function,from module import function,,,,,,,,
-13,Programming,hard,What is list comprehension in Python?,A way to create lists in a concise way,A method to compress lists,A function to sort lists,A way to delete list items,A way to create lists in a concise way,,,,,,,,
-14,Programming,easy,Which comparison returns True?,5 == 5.0,5 is 5.0,5 === 5.0,5 equals 5.0,5 == 5.0,,,,,,,,
-15,Programming,medium,What does the 'yield' keyword do?,Creates a generator function,Stops a function,Returns a value,Creates a list,Creates a generator function,,,,,,,,
-16,Programming,hard,What is the purpose of '__init__' method in a class?,Constructor method,Destructor method,Static method,Private method,Constructor method,,,,,,,,
-17,Programming,medium,How do you handle exceptions in Python?,try/except,try/catch,if/else,switch/case,try/except,,,,,,,,
-18,Programming,easy,What is the correct way to create a dictionary?,my_dict = {},my_dict = [],my_dict = (),my_dict = set(),my_dict = {},,,,,,,,
-19,Programming,hard,What does the 'super()' function do?,Calls the parent class method,Creates a new class,Defines a static method,Overrides a method,Calls the parent class method,,,,,,,,
-20,Programming,medium,Which of these is NOT a Python data type?,boolean,int,float,number,number,,,,,,,,
+Question ID,Type,Difficulty,Question,Option A,Option B,Option C,Option D,Correct Answer
+1,Programming,easy,What symbol is used for comments in Python?,/* */,//,#,--,#
+2,Programming,easy,"How do you print ""Hello World"" in Python?","print(""Hello World"")","echo(""Hello World"")","console.log(""Hello World"")","System.out.println(""Hello World"")","print(""Hello World"")"
+3,Programming,easy,Which of these is a correct way to define a function in Python?,def my_function():,function my_function():,func my_function():,define my_function():,def my_function():
+4,Programming,easy,What data type is created with square brackets in Python?,Set,Tuple,Dictionary,List,List
+5,Programming,medium,What does the 'len()' function do in Python?,Returns the length of an object,Creates a new list,Calculates logarithm,Prints an object,Returns the length of an object
+6,Programming,medium,How do you start an if statement in Python?,if x ==,if (x),if x:,when x:,if x:
+7,Programming,medium,Which method is used to add an element to the end of a list?,insert(),add(),append(),extend(),append()
+8,Programming,hard,What does the '*args' syntax do in a function definition?,Allows variable number of positional arguments,Creates a pointer,Multiplies arguments,Creates an array,Allows variable number of positional arguments
+9,Programming,hard,What is a decorator in Python?,A function that modifies another function,A design pattern,A type of class,A mathematical operation,A function that modifies another function
+10,Programming,easy,How do you create a tuple in Python?,my_tuple = [1|2|3],my_tuple = (1|2|3),my_tuple = {1|2|3},my_tuple = 1|2|3,my_tuple = (1|2|3)
+11,Programming,medium,What does the 'global' keyword do?,Declares a global variable,Creates a new scope,Imports a module,Defines a constant,Declares a global variable
+12,Programming,medium,How do you import a specific function from a module?,from module import function,import function from module,module.import(function),use module.function,from module import function
+13,Programming,hard,What is list comprehension in Python?,A way to create lists in a concise way,A method to compress lists,A function to sort lists,A way to delete list items,A way to create lists in a concise way
+14,Programming,easy,Which comparison returns True?,5 is 5.0,5 equals equals 5.0,5 equals 5.0,5 not equals 5.0,5 equals equals 5.0
+15,Programming,medium,What does the 'yield' keyword do?,Stops a function,Creates a generator function,Returns a value,Creates a list,Creates a generator function
+16,Programming,hard,What is the purpose of '__init__' method in a class?,Constructor method,Destructor method,Static method,Private method,Constructor method
+17,Programming,medium,How do you handle exceptions in Python?,switch/case,try/catch,if/else,try/except,try/except
+18,Programming,easy,What is the correct way to create a dictionary?,my_dict = {},my_dict = [],my_dict = (),my_dict = set(),my_dict = {}
+19,Programming,hard,What does the 'super()' function do?,Calls the parent class method,Creates a new class,Defines a static method,Overrides a method,Calls the parent class method
+20,Programming,medium,Which of these is NOT a Python data type?,boolean,int,float,number,number
+21,Programming,easy,What is the correct way to create an empty list?,[],{},(),list,[]
+22,Programming,easy,Which operator is used for exponentiation?,//,**,^,%%,**
+23,Programming,easy,How do you add multi-line comments?,// Comments //,""""""" Comments """"""",<!-- Comments -->,-- Comments --,""""""" Comments """""""
+24,Programming,easy,What will print(type(42)) return?,<class 'number'>,<class 'int'>,<class 'float'>,<class 'integer'>,<class 'int'>
+25,Programming,easy,How do you check a string's length?,size(text),text.length(),len(text),text.size(),len(text)
+26,Programming,easy,How do you convert a string to lowercase?,lowercase(string),string.lower(),string.to_lower(),string.downcase(),string.lower()
+27,Programming,easy,"What is the output of print(""Hello"" + "" "" + ""World"")?","""Hello World""",Hello World,Hello + World,"""Hello"" ""World""",Hello World
+28,Programming,medium,What does string.split() do?,Removes whitespace,Divides into parts,Separates characters,Checks substrings,Divides into parts
+29,Programming,medium,How do you convert a string to an integer?,to_int(string),Integer.parse(string),string.toInt(),int(string),int(string)
+30,Programming,medium,What are list comprehensions for?,Sorting elements,Removing elements,Creating new lists,Joining lists,Creating new lists
+31,Programming,medium,How do you check if a key exists in a dictionary?,dict.contains(key),key in dict,dict.has_key(key),dict.exists(key),key in dict
+32,Programming,medium,What does 'self' refer to in a class method?,The class,The parent class,The instance,A keyword,The instance
+33,Programming,medium,What does string.strip() do?,Removes all spaces,Removes outer spaces,Splits the string,Removes characters,Removes outer spaces
+34,Programming,medium,How do you open a file for reading?,"read(""file.txt"")","File.open(""file.txt"")","open(""file.txt""| ""w"")","open(""file.txt""| ""r"")","open(""file.txt""| ""r"")"
+35,Programming,medium,How do you create a default parameter?,def func(default: param),def func(param = value),def func(param: value),def func(param <- value),def func(param = value)
+36,Programming,hard,What is a generator function?,Creates random numbers,Creates new objects,Returns an iterator,Generates documentation,Returns an iterator
+37,Programming,hard,What does @property do?,Makes method private,Method acts as attribute,Creates static method,Makes attribute immutable,Method acts as attribute
+38,Programming,hard,What are *args and **kwargs used for?,List unpacking,Required arguments,Importing variables,Variable arguments,Variable arguments
+39,Programming,hard,What is a context manager?,Manages memory,Used with 'with',Manages processes,Controls execution,Used with 'with'
+40,Programming,hard,How does Python's garbage collection work?,Manual management,Reference counting,Scheduled cleanup,Delete keyword,Reference counting

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useQuestionTimer, TimerDisplay } from './ResearchDataFeatures.jsx';
 import "./quizstyle.css";
 
 function QuizPage({ updateTech }) {
@@ -8,10 +9,14 @@ function QuizPage({ updateTech }) {
   const [currentQuestion, setCurrentQuestion] = useState(null);
   const [selectedOption, setSelectedOption] = useState(null);
   const [isCorrect, setIsCorrect] = useState(null);
+  const { resetTimer, recordAnswer } = useQuestionTimer();
   
   // Add these new states for difficulty management
   const [currentDifficulty, setCurrentDifficulty] = useState("easy");
   const [consecutiveCorrect, setConsecutiveCorrect] = useState(0);
+  
+  // Check if research mode is active
+  const isResearchMode = localStorage.getItem("researchMode") === "true";
 
   // Define the selectQuestionByDifficulty function outside of useEffect
   const selectQuestionByDifficulty = (allQuestions, difficulty) => {
@@ -30,6 +35,9 @@ function QuizPage({ updateTech }) {
       const randomIndex = Math.floor(Math.random() * filteredQuestions.length);
       setCurrentQuestion(filteredQuestions[randomIndex]);
     }
+    
+    // Reset the timer when a new question is selected
+    resetTimer();
   };
 
   // Load questions and set initial difficulty based on game mode
@@ -95,12 +103,13 @@ function QuizPage({ updateTech }) {
     console.log(`RESULT: ${correct ? "CORRECT! ✓" : "INCORRECT! ✗"}`);
     console.log("========================");
     
+    // Record timing data for the question
+    const questionId = currentQuestion.id || `question-${currentDifficulty}-${currentQuestion.question.substring(0, 20)}`;
+    const timeSpent = recordAnswer(questionId, correct);
+    console.log(`Question answered in ${timeSpent}ms`);
+    
     setIsCorrect(correct);
     
-    // Rest of your code...
-    
-    // Rest of your code remains the same...
-  
     // Get game mode from URL or localStorage
     const urlParams = new URLSearchParams(window.location.search);
     const gameMode = urlParams.get("mode") || "standard"; // Default to standard
@@ -170,6 +179,9 @@ function QuizPage({ updateTech }) {
 
   return (
     <div className="quiz-container">
+      {/* Show timer if in research mode */}
+      {isResearchMode && <TimerDisplay />}
+    
       <button className="back-to-game" onClick={handleReturn}>
         Back to Game
       </button>
