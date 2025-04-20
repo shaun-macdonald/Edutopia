@@ -807,7 +807,7 @@ export function useQuestionTimer() {
   useEffect(() => {
     resetTimer();
   }, []);
-  
+    
   return { resetTimer, recordAnswer };
 }
 

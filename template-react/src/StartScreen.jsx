@@ -1,16 +1,12 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./StartScreen.css";
-import { initTimer } from './TimerDisplay';
 
 function StartScreen() {
+    const navigate = useNavigate();
     const [selectedMode, setSelectedMode] = useState("standard");
-
     const [isResearchMode, setIsResearchMode] = useState(
         localStorage.getItem("researchMode") === "true"
-    );
-    const [sessionDuration, setSessionDuration] = useState(
-        parseInt(localStorage.getItem("sessionDuration") || "10")
     );
 
     const handleNewGame = () => {
@@ -23,12 +19,47 @@ function StartScreen() {
 
         if (isResearchMode) {
             localStorage.setItem("researchMode", "true");
-            localStorage.setItem("sessionDuration", sessionDuration.toString());
+            // Always set to 10 minutes (no options)
+            localStorage.setItem("sessionDuration", "10");
         } else {
             localStorage.removeItem("researchMode");
             localStorage.removeItem("sessionDuration");
         }
     };
+    
+    // Navigate to instructions with current path as state
+    const goToInstructions = () => {
+        navigate("/instructions", { state: { from: "/" } });
+    };
+
+    // Common button styles
+    const buttonStyle = {
+        padding: '12px 24px',
+        fontSize: '16px',
+        fontWeight: 'bold',
+        border: 'none',
+        borderRadius: '6px',
+        cursor: 'pointer',
+        transition: 'all 0.2s ease',
+        boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+        margin: '0 10px',
+        minWidth: '160px'
+    };
+
+    // Style for game mode buttons
+    const modeButtonStyle = (isSelected) => ({
+        padding: '10px 20px',
+        fontSize: '15px',
+        backgroundColor: isSelected ? '#2c5282' : '#334155',
+        color: 'white',
+        border: 'none',
+        borderRadius: '6px',
+        cursor: 'pointer',
+        transition: 'all 0.2s ease',
+        margin: '0 6px',
+        boxShadow: isSelected ? '0 0 0 2px #63b3ed, 0 4px 6px rgba(0, 0, 0, 0.1)' : '0 4px 6px rgba(0, 0, 0, 0.1)',
+        transform: isSelected ? 'translateY(-2px)' : 'none'
+    });
 
     return (
         <div className="start-screen">
@@ -37,21 +68,25 @@ function StartScreen() {
 
             <div className="mode-selection">
                 <h3>Select Game Mode:</h3>
-                <div className="mode-buttons">
+                <div className="mode-buttons" style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    margin: '15px 0'
+                }}>
                     <button
-                        className={`mode-button ${selectedMode === 'standard' ? 'selected' : ''}`}
+                        style={modeButtonStyle(selectedMode === 'standard')}
                         onClick={() => setSelectedMode('standard')}
                     >
                         Game Mode 1
                     </button>
                     <button
-                        className={`mode-button ${selectedMode === 'challenging' ? 'selected' : ''}`}
+                        style={modeButtonStyle(selectedMode === 'challenging')}
                         onClick={() => setSelectedMode('challenging')}
                     >
                         Game Mode 2
                     </button>
                     <button
-                        className={`mode-button ${selectedMode === 'quiz' ? 'selected' : ''}`}
+                        style={modeButtonStyle(selectedMode === 'quiz')}
                         onClick={() => setSelectedMode('quiz')}
                     >
                         Game Mode 3
@@ -63,54 +98,41 @@ function StartScreen() {
                 <p>You have selected a game mode. Each mode offers a unique gameplay experience.</p>
             </div>
 
-            <div className="research-toggle" style={{ marginTop: '20px' }}>
-                <label style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <div className="research-toggle" style={{ 
+                marginTop: '20px',
+                backgroundColor: isResearchMode ? 'rgba(44, 82, 130, 0.2)' : 'transparent',
+                padding: '10px',
+                borderRadius: '8px',
+                transition: 'background-color 0.3s ease'
+            }}>
+                <label style={{ 
+                    display: 'flex', 
+                    alignItems: 'center', 
+                    justifyContent: 'center',
+                    fontWeight: isResearchMode ? 'bold' : 'normal',
+                    color: isResearchMode ? '#2c5282' : 'inherit' 
+                }}>
                     <input
                         type="checkbox"
                         checked={isResearchMode}
                         onChange={(e) => setIsResearchMode(e.target.checked)}
-                        style={{ marginRight: '8px' }}
+                        style={{ 
+                            marginRight: '8px',
+                            width: '18px',
+                            height: '18px'
+                        }}
                     />
                     Research Mode (10 Minutes)
                 </label>
             </div>
 
-            {isResearchMode && (
-                <div className="duration-selection" style={{ marginTop: '15px' }}>
-                    <h3>Select Session Duration:</h3>
-                    <div className="duration-buttons">
-                        <button
-                            className={`duration-button ${sessionDuration === 10 ? 'selected' : ''}`}
-                            onClick={() => setSessionDuration(10)}
-                            style={{
-                                padding: '8px 15px',
-                                backgroundColor: sessionDuration === 10 ? '#4a8' : '#ddd',
-                                marginRight: '10px',
-                                border: 'none',
-                                borderRadius: '4px',
-                                cursor: 'pointer'
-                            }}
-                        >
-                            10 Minutes
-                        </button>
-                        <button
-                            className={`duration-button ${sessionDuration === 15 ? 'selected' : ''}`}
-                            onClick={() => setSessionDuration(15)}
-                            style={{
-                                padding: '8px 15px',
-                                backgroundColor: sessionDuration === 15 ? '#4a8' : '#ddd',
-                                border: 'none',
-                                borderRadius: '4px',
-                                cursor: 'pointer'
-                            }}
-                        >
-                            15 Minutes
-                        </button>
-                    </div>
-                </div>
-            )}
-
-            <div className="start-buttons">
+            <div className="start-buttons" style={{
+                display: 'flex',
+                justifyContent: 'center',
+                marginTop: '30px',
+                flexWrap: 'wrap',
+                gap: '15px'
+            }}>
                 <Link
                     to={
                         isResearchMode
@@ -120,17 +142,30 @@ function StartScreen() {
                                 : `/game?mode=${selectedMode}`)
                     }
                     onClick={handleNewGame}
+                    style={{ textDecoration: 'none' }}
                 >
-                    <button className="new-game-button">New Game</button>
+                    <button style={{
+                        ...buttonStyle,
+                        backgroundColor: '#27ae60',
+                        color: 'white',
+                        position: 'relative',
+                        overflow: 'hidden',
+                        zIndex: 1,
+                    }}>
+                        Start Game
+                    </button>
                 </Link>
 
-                <Link to={selectedMode === 'quiz' ? `/quiz` : `/game`}>
-                    <button className="continue-button">Continue</button>
-                </Link>
-
-                <Link to="/instructions">
-                    <button className="instructions-button">Instructions</button>
-                </Link>
+                <button 
+                    style={{
+                        ...buttonStyle,
+                        backgroundColor: '#718096',
+                        color: 'white'
+                    }}
+                    onClick={goToInstructions}
+                >
+                    Instructions
+                </button>
             </div>
         </div>
     );

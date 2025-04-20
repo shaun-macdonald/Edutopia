@@ -216,7 +216,11 @@ const GameScreen = () => {
           </Link>
           <button className="upgrade-button" onClick={handleUpgradeStorage}>Upgrade Storage (1 Tech)</button>
           <button className="end-turn-button" onClick={handleEndTurn}>End Turn</button>
-          {isResearchMode && <ExportDataButton />}
+          
+
+          <Link to="/instructions">
+                    <button className="instructions-button">Instructions</button>
+                </Link>
         </nav>
         <PhaserGame />
       </>

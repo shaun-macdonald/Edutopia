@@ -11,12 +11,35 @@ function QuizPage({ updateTech }) {
   const [isCorrect, setIsCorrect] = useState(null);
   const { resetTimer, recordAnswer } = useQuestionTimer();
   
-  // Add these new states for difficulty management
-  const [currentDifficulty, setCurrentDifficulty] = useState("easy");
+  // Get game mode from URL or localStorage
+  const urlParams = new URLSearchParams(window.location.search);
+  const gameMode = urlParams.get("mode") || "standard"; // Default to standard
+  
+  // Get stored difficulty from localStorage or calculate initial based on game mode
+  const getInitialDifficulty = () => {
+    const storedDifficulty = localStorage.getItem("quizDifficulty");
+    
+    // If we have a stored difficulty, use it
+    if (storedDifficulty) {
+      return storedDifficulty;
+    }
+    
+    // Otherwise set initial difficulty based on game mode
+    return gameMode === "challenging" ? "medium" : "easy";
+  };
+  
+  // Add these states for difficulty management with the initial value from storage or mode
+  const [currentDifficulty, setCurrentDifficulty] = useState(getInitialDifficulty);
   const [consecutiveCorrect, setConsecutiveCorrect] = useState(0);
   
   // Check if research mode is active
   const isResearchMode = localStorage.getItem("researchMode") === "true";
+
+  // Make sure to persist difficulty changes to localStorage
+  useEffect(() => {
+    localStorage.setItem("quizDifficulty", currentDifficulty);
+    console.log(`Difficulty updated and saved: ${currentDifficulty}`);
+  }, [currentDifficulty]);
 
   // Define the selectQuestionByDifficulty function outside of useEffect
   const selectQuestionByDifficulty = (allQuestions, difficulty) => {
@@ -25,10 +48,13 @@ function QuizPage({ updateTech }) {
       return;
     }
     
-    const filteredQuestions = allQuestions.filter(q => q.difficulty === difficulty);
+    // For challenging mode, ensure we never go below medium difficulty
+    const actualDifficulty = gameMode === "challenging" && difficulty === "easy" ? "medium" : difficulty;
+    
+    const filteredQuestions = allQuestions.filter(q => q.difficulty === actualDifficulty);
     
     if (filteredQuestions.length === 0) {
-      console.warn(`No questions found with difficulty: ${difficulty}`);
+      console.warn(`No questions found with difficulty: ${actualDifficulty}`);
       const randomIndex = Math.floor(Math.random() * allQuestions.length);
       setCurrentQuestion(allQuestions[randomIndex]);
     } else {
@@ -42,14 +68,6 @@ function QuizPage({ updateTech }) {
 
   // Load questions and set initial difficulty based on game mode
   useEffect(() => {
-    // Get game mode from URL
-    const urlParams = new URLSearchParams(window.location.search);
-    const gameMode = urlParams.get("mode") || "standard"; // Default to standard
-    
-    // Set initial difficulty based on game mode
-    const initialDifficulty = gameMode === "challenging" ? "medium" : "easy";
-    setCurrentDifficulty(initialDifficulty);
-    
     fetch("/data/questions.json")
       .then((response) => response.json())
       .then((data) => {
@@ -59,13 +77,13 @@ function QuizPage({ updateTech }) {
         if (Array.isArray(data)) {
           console.log("Data is a direct array of questions, using as is");
           setQuestions(data);
-          selectQuestionByDifficulty(data, initialDifficulty);
+          selectQuestionByDifficulty(data, currentDifficulty);
         }
         // Or if it's an object with a questions property (our expected format)
         else if (data && data.questions && Array.isArray(data.questions)) {
           console.log("Data has questions property, using data.questions");
           setQuestions(data.questions);
-          selectQuestionByDifficulty(data.questions, initialDifficulty);
+          selectQuestionByDifficulty(data.questions, currentDifficulty);
         } 
         // Invalid format
         else {
@@ -110,10 +128,6 @@ function QuizPage({ updateTech }) {
     
     setIsCorrect(correct);
     
-    // Get game mode from URL or localStorage
-    const urlParams = new URLSearchParams(window.location.search);
-    const gameMode = urlParams.get("mode") || "standard"; // Default to standard
-    
     if (correct) {
       // Add tech points for correct answer
       updateTech(1);
@@ -144,11 +158,11 @@ function QuizPage({ updateTech }) {
     } else {
       // Handle incorrect answer
       if (gameMode === "challenging") {
-        // In challenging mode, drop from hard to medium (medium is base)
+        // In challenging mode, stay at medium difficulty at minimum
         if (currentDifficulty === "hard") {
           setCurrentDifficulty("medium");
           setConsecutiveCorrect(0);
-          console.log("Dropping to medium difficulty!");
+          console.log("Dropping to medium difficulty (minimum for challenging mode)!");
         }
       } else {
         // In standard mode, drop one level (easy is base)
@@ -168,7 +182,10 @@ function QuizPage({ updateTech }) {
   const handleContinue = () => {
     setSelectedOption(null);
     setIsCorrect(null);
-    selectQuestionByDifficulty(questions, currentDifficulty);
+    
+    // For challenging mode, ensure we never go below medium difficulty
+    const actualDifficulty = gameMode === "challenging" && currentDifficulty === "easy" ? "medium" : currentDifficulty;
+    selectQuestionByDifficulty(questions, actualDifficulty);
   };
 
   const handleReturn = () => {
