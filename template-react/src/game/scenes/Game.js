@@ -5,6 +5,16 @@ export class Game extends Scene {
         super('Game');
     }
 
+
+    init(data) {
+        // Initialize scene with data passed from PhaserGame component
+        console.log("Scene init with data:", data);
+        if (data && data.gameMode) {
+            this.gameMode = data.gameMode;
+            console.log("Game mode set from init data:", this.gameMode);
+        }
+    }
+
     preload() {
         this.load.tilemapTiledJSON('map', '/assets/map.tmj');
     
@@ -32,7 +42,11 @@ export class Game extends Scene {
         this.layer = map.createLayer("Tile Layer 1", loadedTilesets, 0, 0);
     
         // Get game mode from game instance data
-        this.gameMode = this.game.config.data?.gameMode || "standard";
+        // Get game mode from config data if not already set
+        if (!this.gameMode) {
+            this.gameMode = this.game.config.data?.gameMode || "standard";
+        }
+        console.log("Final game mode set to:", this.gameMode);
         console.log("Game mode set to:", this.gameMode);
         
         // Define playerStartTile first

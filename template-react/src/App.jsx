@@ -90,6 +90,14 @@ function App() {
                 newResources.wood += otherResources;
                 newResources.metal += otherResources;
             }
+                        // 👇 Immediately sync updated tech into the Phaser game scene
+            if (window.phaserGame && window.phaserGame.scene && window.phaserGame.scene.scenes[0]) {
+                const gameScene = window.phaserGame.scene.scenes[0];
+                if (gameScene.resources) {
+                gameScene.resources.tech = newResources.tech;
+                }
+            }
+  
             
             console.log(`Earned ${points} Tech${otherResources ? ` and ${otherResources} of other resources` : ''}! New totals:`, newResources);
 

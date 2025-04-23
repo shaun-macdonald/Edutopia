@@ -14,17 +14,6 @@ export const PhaserGame = () => {
 
     console.log("📌 Selected Game Mode:", gameMode);
 
-    // Set initial quiz difficulty based on game mode
-    useEffect(() => {
-        if (gameMode === "challenging") {
-            // For challenging mode, ensure quiz difficulty starts at medium and persists
-            if (localStorage.getItem("quizDifficulty") === "easy" || !localStorage.getItem("quizDifficulty")) {
-                localStorage.setItem("quizDifficulty", "medium");
-                console.log("Setting initial quiz difficulty to medium for challenging mode");
-            }
-        }
-    }, [gameMode]);
-
     useEffect(() => {
         if (!gameContainer.current) return;
 
@@ -39,12 +28,12 @@ export const PhaserGame = () => {
                 parent: gameContainer.current,
                 scene: [Game],
                 physics: { default: "arcade" },
-                data: { gameMode: gameMode } 
+                data: { gameMode } // Fix: Just pass gameMode directly
             };
 
             gameInstance = new Phaser.Game(config);
             window.phaserGame = gameInstance;
-            console.log("✅ Phaser game initialized!");
+            console.log("✅ Phaser game initialized with mode:", gameMode);
             setIsInitialized(true);
         } else {
             console.log("Reusing existing Phaser instance");
@@ -61,8 +50,9 @@ export const PhaserGame = () => {
                     console.log("Updated game mode in existing scene:", gameMode);
                     
                     if (gameScene.scene.isActive() && !gameScene.scene.isPaused()) {
+                        // Fix: Ensure game mode is properly passed to the scene
                         gameScene.scene.restart({ gameMode });
-                        console.log("Restarted scene with new game mode");
+                        console.log("Restarted scene with new game mode:", gameMode);
                     }
                 }
             }
@@ -91,7 +81,7 @@ export const PhaserGame = () => {
                 }
             }
         };
-    }, [gameMode]);
+    }, [gameMode, gameContainer]);
 
     return (
         <div ref={gameContainer} id="game-container" className="phaser-container">
