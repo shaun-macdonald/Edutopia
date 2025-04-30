@@ -20,17 +20,16 @@
         "react",
         "vite"
     ],
-        "scripts": {
-  "update-questions": "node scripts/convert_questions.js",
-  "dev": "npm run update-questions && node dev & vite --config vite/config.dev.mjs",
-  "build": "npm run update-questions && vite build --config vite/config.prod.mjs",
-  "dev-nolog": "npm run update-questions && vite --config vite/config.dev.mjs",
-  "build-nolog": "npm run update-questions && vite build --config vite/config.prod.mjs",
-  "start": "npm run update-questions && vite",
-  "preview": "vite preview"
-},
-
-
+    "scripts": {
+        "update-questions": "node scripts/convert_questions.js",
+        "dev": "npm run update-questions && node dev & vite --config vite/config.dev.mjs",
+        "build": "npm run update-questions && vite build --config vite/config.prod.mjs",
+        "dev-nolog": "npm run update-questions && vite --config vite/config.dev.mjs",
+        "build-nolog": "npm run update-questions && vite build --config vite/config.prod.mjs",
+        "start": "npm run update-questions && vite",
+        "preview": "vite preview",
+        "setup": "node setup.js"
+    },
     "dependencies": {
         "phaser": "^3.87.0",
         "react": "^18.3.1",
