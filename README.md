@@ -46,9 +46,18 @@ To set up and maintain the Edutopia application, ensure the following software i
    RUN npm run dev
    Follow instructions in terminal and open the local host it shows you
 
-Admin Access
+## 🎮 Study Modes
 For marking or data review:
 
 Navigate to: http://localhost:5173/admin
 
 Password: research123
+
+## 🎮 Study Modes
+
+Edutopia has three modes:
+- **Mode 1 (Standard Gamified):** Fixed difficulty questions.
+- **Mode 2 (Challenging Gamified):** Difficulty adapts based on performance.
+- **Mode 3 (Traditional):** Quiz-only study without game elements.
+
+Modes were assigned randomly to participants for research comparison.
