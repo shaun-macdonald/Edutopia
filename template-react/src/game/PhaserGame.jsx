@@ -1,3 +1,4 @@
+
 import { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import Phaser from "phaser";
@@ -12,7 +13,7 @@ export const PhaserGame = () => {
     const gameMode = queryParams.get("mode") || "standard"; 
     const [isInitialized, setIsInitialized] = useState(false);  
 
-    console.log("📌 Selected Game Mode:", gameMode);
+    console.log(" Selected Game Mode:", gameMode);
 
     useEffect(() => {
         if (!gameContainer.current) return;
@@ -33,7 +34,7 @@ export const PhaserGame = () => {
 
             gameInstance = new Phaser.Game(config);
             window.phaserGame = gameInstance;
-            console.log("✅ Phaser game initialized with mode:", gameMode);
+            console.log(" Phaser game initialized with mode:", gameMode);
             setIsInitialized(true);
         } else {
             console.log("Reusing existing Phaser instance");

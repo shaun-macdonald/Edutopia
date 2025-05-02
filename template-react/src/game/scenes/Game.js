@@ -7,7 +7,7 @@ export class Game extends Scene {
 
 
     init(data) {
-        // Initialize scene with data passed from PhaserGame component
+        // initialize scene with data passed from PhaserGame component
         console.log("Scene init with data:", data);
         if (data && data.gameMode) {
             this.gameMode = data.gameMode;
@@ -52,7 +52,7 @@ export class Game extends Scene {
         // Define playerStartTile first
         this.playerStartTile = { x: 1, y: 8 };
         
-        // ✅ Always start fresh (resources reset to 0)
+        //  Always start fresh (resources reset to 0)
         this.resources = { food: 0, wood: 0, metal: 0, tech: 0 };
         
         // Initialize owned tiles with health property
@@ -78,22 +78,22 @@ export class Game extends Scene {
                 const parsedState = JSON.parse(savedState);
                 if (parsedState.ownedTiles && parsedState.ownedTiles.length > 0) {
                     this.ownedTiles = parsedState.ownedTiles;
-                    console.log("♻️ Restored owned tiles:", this.ownedTiles);
+                    console.log("Restored owned tiles:", this.ownedTiles);
                 }
 
                 if (parsedState.resources) {
                     this.resources = parsedState.resources;
-                    console.log("♻️ Restored resources:", this.resources);
+                    console.log("Restored resources:", this.resources);
                 }
 
                 if (parsedState.baseResourceCap) {
                     this.baseResourceCap = parsedState.baseResourceCap;
-                    console.log("♻️ Restored base resource cap:", this.baseResourceCap);
+                    console.log("Restored base resource cap:", this.baseResourceCap);
                 }
 
                 if (parsedState.tileCount !== undefined) {
                     this.tileCount = parsedState.tileCount;
-                    console.log("♻️ Restored tile count:", this.tileCount);
+                    console.log(" Restored tile count:", this.tileCount);
                 } else {
                     // Fallback: count healthy owned tiles
                     this.tileCount = this.countHealthyTiles();
@@ -221,7 +221,7 @@ export class Game extends Scene {
             this.ownedTiles.forEach((tile, index) => {
                 console.log(`DEBUG: Processing tile at (${tile.x}, ${tile.y}) with health ${tile.health}`);
                 
-                // Village handling - special case
+                // Village handling 
                 if (tile.x === this.playerStartTile.x && tile.y === this.playerStartTile.y) {
                     console.log("DEBUG: This is the village tile, generating resources");
                     // Village doesn't degrade and always produces at full capacity
@@ -229,7 +229,7 @@ export class Game extends Scene {
                     newResources.wood += Math.floor(1 * (this.gameMode === "reduced" ? 0.5 : 1));
                     newResources.metal += Math.floor(1 * (this.gameMode === "reduced" ? 0.5 : 1));
                     console.log("DEBUG: Village generated resources:", newResources);
-                    return; // Skip degradation for village
+                    return; 
                 }
                 
                 // Degrade tile by 10 points per turn
@@ -305,9 +305,9 @@ export class Game extends Scene {
         this.resources.metal = Math.min(totalMetal, resourceCaps.metal);
         this.resources.tech = newResources.tech; // Keep accumulated tech points
     
-        // Optional: log if resources were capped
+        // log if resources were capped
         if (totalFood > resourceCaps.food || totalWood > resourceCaps.wood || totalMetal > resourceCaps.metal) {
-            console.log("⚠️ Some resources reached their cap!");
+            console.log("Some resources reached their cap!");
         }
     
         console.log("🔄 Resources Updated:", this.resources);
@@ -335,7 +335,7 @@ export class Game extends Scene {
             tileCount: healthyTileCount // Save the count of healthy tiles
         };
         localStorage.setItem("gameState", JSON.stringify(savedState));
-        console.log("💾 Game state saved with healthy tile count:", healthyTileCount);
+        console.log(" Game state saved with healthy tile count:", healthyTileCount);
     }
 
     // Method to handle tile repair
@@ -420,7 +420,7 @@ export class Game extends Scene {
             }
         }
         
-        // Original tile claiming logic continues here...
+        
         if (!this.isTileAdjacent(x, y)) {
             console.log("You can only claim adjacent tiles!");
             return;
@@ -442,7 +442,7 @@ export class Game extends Scene {
         // Add the new tile with full health (once, not twice)
         this.ownedTiles.push({ x, y, health: 100 });
         
-        // Update tile count - only count healthy tiles
+        // Update tile count  only count healthy tiles
         this.tileCount = this.countHealthyTiles();
         
         // Update the React UI with the new tile count
@@ -451,12 +451,12 @@ export class Game extends Scene {
             console.log("Updated healthy tile count:", this.tileCount);
         }
         
-        // Apply visual effects
+        
         this.updateTileVisuals();
         
         console.log(`Tile at (${x}, ${y}) claimed! Total healthy tiles: ${this.tileCount}`);
         
-        // Save state after claiming a tile
+        
         this.saveGameState();
     }
     
@@ -524,7 +524,7 @@ export class Game extends Scene {
         }
     
         this.resources.tech -= 1;
-        this.baseResourceCap += 20; // Manually increases base cap
+        this.baseResourceCap += 20; 
     
         console.log("Storage capacity upgraded! New base cap:", this.baseResourceCap);
     

@@ -19,7 +19,7 @@ function StartScreen() {
 
         if (isResearchMode) {
             localStorage.setItem("researchMode", "true");
-            // Always set to 10 minutes (no options)
+        
             localStorage.setItem("sessionDuration", "10");
         } else {
             localStorage.removeItem("researchMode");

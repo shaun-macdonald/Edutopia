@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import DataManager from './ResearchDataFeatures';
 
-// Timer Service Functions
+// Timer Service f  unctions
 export function initTimer(durationMinutes) {
   // Set the end time
   const now = Date.now();
@@ -65,12 +65,12 @@ function TimerDisplay() {
     return () => clearInterval(interval);
   }, [navigate]);
   
-  // Determine color based on time remaining
+  // color based on time remaining
   const getColor = () => {
     const seconds = getTimeRemaining();
-    if (seconds <= 60) return "#ff0000"; // Red in last minute
-    if (seconds <= 300) return "#ff9900"; // Orange in last 5 minutes
-    return "#00cc00"; // Green otherwise
+    if (seconds <= 60) return "#ff0000"; 
+    if (seconds <= 300) return "#ff9900"; 
+    return "#00cc00"; 
   };
   
   return (

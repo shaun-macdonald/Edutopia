@@ -34,7 +34,7 @@ export function initGlobalTimer() {
       localStorage.setItem("sessionTimeRemaining", (timeNumber - 1).toString());
     };
     
-    // Start interval (run every second)
+    // Start interval 
     globalTimerInterval = setInterval(updateTimer, 1000);
     
     // Setup cleanup on page unload
@@ -54,9 +54,7 @@ export function stopGlobalTimer() {
   }
 }
 
-// ==========================================
-// DATA MANAGEMENT FUNCTIONS
-// ==========================================
+
 
 export const DataManager = {
   // Save user name and start session
@@ -186,7 +184,7 @@ export const DataManager = {
     return sessionKey;
   },
   
-  // Email data forwarding function
+  // Email data forwarding
   emailResearchData: () => {
     const userName = localStorage.getItem("userName") || "Anonymous";
     const gameState = JSON.parse(localStorage.getItem("gameState") || "{}");
@@ -269,9 +267,7 @@ export const DataManager = {
   }
 };
 
-// ==========================================
-// USER NAME ENTRY COMPONENT
-// ==========================================
+
 
 export function UserNameEntry() {
   const [userName, setUserName] = useState("");
@@ -315,10 +311,6 @@ export function UserNameEntry() {
   );
 }
 
-// ==========================================
-// EXPORT DATA BUTTON COMPONENT
-// ==========================================
-
 export function ExportDataButton() {
   return (
     <button 
@@ -331,9 +323,7 @@ export function ExportDataButton() {
   );
 }
 
-// ==========================================
-// SESSION COMPLETE COMPONENT
-// ==========================================
+
 
 export function SessionCompleteScreen() {
   const navigate = useNavigate();
@@ -491,9 +481,7 @@ export function SessionCompleteScreen() {
   );
 }
 
-// ==========================================
-// RESEARCH ADMIN COMPONENT
-// ==========================================
+
 
 export function ResearchAdmin() {
   const [sessions, setSessions] = useState([]);
@@ -530,7 +518,7 @@ export function ResearchAdmin() {
   
   const handleLogin = (e) => {
     e.preventDefault();
-    // Simple password for research admin
+    
     if (password === 'research123') {
       setIsAdmin(true);
     } else {
@@ -705,10 +693,6 @@ export function ResearchAdmin() {
   );
 }
 
-// ==========================================
-// TIMER DISPLAY COMPONENT
-// ==========================================
-
 export function TimerDisplay() {
   const [timeDisplay, setTimeDisplay] = useState(() => {
     // Initialize with current time to avoid flashing
@@ -725,10 +709,9 @@ export function TimerDisplay() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Make sure the global timer is running
+   
     initGlobalTimer();
     
-    // Update display every 500ms (more frequent than the actual timer)
     const displayInterval = setInterval(() => {
       const currentTime = localStorage.getItem("sessionTimeRemaining");
       if (!currentTime) return;
@@ -742,11 +725,11 @@ export function TimerDisplay() {
       
       // Update color
       if (timeNumber <= 60) {
-        setColor("#ff0000"); // Red in last minute
+        setColor("#ff0000");
       } else if (timeNumber <= 300) {
-        setColor("#ff9900"); // Orange in last 5 minutes
+        setColor("#ff9900"); 
       } else {
-        setColor("#00cc00"); // Green otherwise
+        setColor("#00cc00"); 
       }
       
       // Check if time is up
@@ -779,10 +762,6 @@ export function TimerDisplay() {
     </div>
   );
 }
-
-// ==========================================
-// QUESTION TIMER HOOK
-// ==========================================
 
 export function useQuestionTimer() {
   const [questionStartTime, setQuestionStartTime] = useState(null);

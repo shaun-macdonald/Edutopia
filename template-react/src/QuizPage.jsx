@@ -18,7 +18,6 @@ function QuizPage({ updateTech }) {
   // Check if research mode is active
   const isResearchMode = localStorage.getItem("researchMode") === "true";
 
-  // Define the selectQuestionByDifficulty function outside of useEffect
   const selectQuestionByDifficulty = (allQuestions, difficulty) => {
     if (!allQuestions || !Array.isArray(allQuestions) || allQuestions.length === 0) {
       console.error("No questions available to select from");
@@ -72,13 +71,13 @@ function QuizPage({ updateTech }) {
           setQuestions(data);
           selectQuestionByDifficulty(data, initialDifficulty);
         }
-        // Or if it's an object with a questions property (our expected format)
+        // or if its an object with a questions property (our expected format)
         else if (data && data.questions && Array.isArray(data.questions)) {
           console.log("Data has questions property, using data.questions");
           setQuestions(data.questions);
           selectQuestionByDifficulty(data.questions, initialDifficulty);
         } 
-        // Invalid format
+        
         else {
           console.error("Invalid questions data format:", data);
           setQuestions([]);
@@ -102,7 +101,7 @@ function QuizPage({ updateTech }) {
     // Determine if the answer is correct
     let correct = false;
     
-    // If correctAnswer is a number or can be converted to a number
+    // If correctnswer is a number or can be converted to a number
     if (!isNaN(Number(currentQuestion.correctAnswer))) {
       // Compare by index
       correct = Number(selectedOption) === Number(currentQuestion.correctAnswer);
@@ -112,7 +111,7 @@ function QuizPage({ updateTech }) {
     }
     
     console.log(`RESULT: ${correct ? "CORRECT! ✓" : "INCORRECT! ✗"}`);
-    console.log("========================");
+    console.log("==========");
     
     // Record timing data for the question
     const questionId = currentQuestion.id || `question-${currentDifficulty}-${currentQuestion.question.substring(0, 20)}`;
@@ -121,10 +120,9 @@ function QuizPage({ updateTech }) {
     
     setIsCorrect(correct);
     
-    // Get game mode from URL or localStorage
-    const urlParams = new URLSearchParams(window.location.search);
-    const gameMode = urlParams.get("mode") || "standard"; // Default to standard
     
+    const urlParams = new URLSearchParams(window.location.search);
+    const gameMode = urlParams.get("mode") || "standard"; 
     if (correct) {
       // Add tech points for correct answer
       updateTech(1);
@@ -134,14 +132,14 @@ function QuizPage({ updateTech }) {
       
       // Apply difficulty progression based on game mode
       if (gameMode === "challenging") {
-        // Challenging mode: 1 correct medium → hard
+        // Challenging mode: 1 correct medium to hard
         if (currentDifficulty === "medium" && consecutiveCorrect + 1 >= 1) {
           setCurrentDifficulty("hard");
-          setConsecutiveCorrect(0); // Reset counter
+          setConsecutiveCorrect(0); 
           console.log("Advancing to hard difficulty!");
         }
       } else {
-        // Standard mode (and quiz mode): 2 correct easy → medium, 2 correct medium → hard
+        // Standard mode 2 correct easy to medium, 2 correct medium to hard
         if (currentDifficulty === "easy" && consecutiveCorrect + 1 >= 2) {
           setCurrentDifficulty("medium");
           setConsecutiveCorrect(0);
@@ -155,15 +153,15 @@ function QuizPage({ updateTech }) {
     } else {
       // Handle incorrect answer
       if (gameMode === "challenging") {
-        // In challenging mode, never go below medium difficulty
+        // In challenging mode donnt go below  medium difficulty
         if (currentDifficulty === "hard") {
           setCurrentDifficulty("medium");
           setConsecutiveCorrect(0);
           console.log("Dropping to medium difficulty (minimum for challenging mode)!");
         }
-        // Important: Don't drop to easy in challenging mode - stay at medium
+        
       } else {
-        // In standard mode, drop one level (easy is base)
+        // In standard mode, drop one level 
         if (currentDifficulty === "hard") {
           setCurrentDifficulty("medium");
           setConsecutiveCorrect(0);
@@ -207,6 +205,7 @@ function QuizPage({ updateTech }) {
         borderRadius: '5px'
       }}>
         Difficulty: {currentDifficulty.charAt(0).toUpperCase() + currentDifficulty.slice(1)}
+        
       </div>
       
       <div className="question-area">
@@ -215,6 +214,7 @@ function QuizPage({ updateTech }) {
       
       <div className="options-area">
         <div className="options-grid">
+
           {currentQuestion.options.map((option, index) => (
             <div
               key={index}

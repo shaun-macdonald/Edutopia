@@ -15,7 +15,7 @@ function SessionCompleteScreen() {
       localStorage.setItem("sessionCompleted", "true");
     }
     
-    // Get score (healthy tiles) from localStorage or game state
+    // Get score  from localStorage or game state
     const gameState = JSON.parse(localStorage.getItem("gameState") || "{}");
     let healthyTileCount = 0;
     let totalTileCount = 0;
@@ -59,7 +59,7 @@ function SessionCompleteScreen() {
       }
     }
     
-    // If we got no score but we know there's a game state, use a default
+    
     if (healthyTileCount === 0 && gameState && Object.keys(gameState).length > 0) {
       setScore(gameState.tileCount || 0);
     }
@@ -72,7 +72,7 @@ function SessionCompleteScreen() {
     localStorage.removeItem("sessionTimeRemaining");
     localStorage.removeItem("gameState");
     localStorage.removeItem("sessionCompleted");
-    localStorage.removeItem("questionTimings"); // Clear question timings for new session
+    localStorage.removeItem("questionTimings");
     
     // Navigate to start screen
     navigate("/");
@@ -92,7 +92,7 @@ function SessionCompleteScreen() {
     }
   };
   
-  // Even if we can't calculate a score, show something
+  
   const displayScore = score || 0;
   
   return (

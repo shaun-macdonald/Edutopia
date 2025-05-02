@@ -60,9 +60,9 @@ export function TimerDisplay({ duration }) {
   
   // Define color based on time remaining
   const getTimerColor = () => {
-    if (timeRemaining <= 60) return "#ff0000"; // Red in last minute
-    if (timeRemaining <= 300) return "#ff9900"; // Orange in last 5 minutes
-    return "#00cc00"; // Green otherwise
+    if (timeRemaining <= 60) return "#ff0000"; 
+    if (timeRemaining <= 300) return "#ff9900"; 
+    return "#00cc00"; 
   };
   
   return (
